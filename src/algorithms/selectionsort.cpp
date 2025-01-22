@@ -29,7 +29,7 @@ int main(){
     }
     std::cout << std::endl;
 
-    mergesort(arr);
+    selectionsort(arr);
 
     for(auto a : arr){
         std::cout << a << " ";
