@@ -19,7 +19,9 @@ In order to be able to compare different algorithms, they are compared in terms 
     \item \textbf{Combine/Merge} the solutions to the subproblems into the solution for the original problem.
 \end{enumerate}
 
-The algorithm is often quite efficient with $\Theta(N\log N)$.
+The algorithm is often quite efficient with $\Theta(N\log N)$. A typical example of a divide-and-conquer algorithm is the recursive sorting algorithm \emph{Mergesort}. A vector $a$ is divided into smaller vectors $b$ until the sub-vectors only contain one number. These are then combined to form the sorted vector.
+
+\lstinputlisting[language=C++]{src/algorithms/mergesort.cpp}
 
 \subsection{Dynamic Programming}
 
