@@ -1,0 +1,155 @@
+\usepackage[english]{babel}
+\usepackage{pstricks}
+\usepackage{graphicx}
+\usepackage{supertabular}
+\usepackage{caption}
+\captionsetup{format=plain}
+\usepackage{amsmath,amssymb,latexsym,mathtools} %Mathe
+\usepackage{isomath}                            %nicht-kursive griechische Buchstaben
+\usepackage{pifont}
+\usepackage{caption, booktabs}
+\usepackage{float}
+\usepackage{extarrows}                          %Pfeile in den Formeln
+\usepackage{siunitx}                            %SI-Einheiten
+\usepackage{color, colortbl}                              %Farbige Texte
+\usepackage{pdfpages}                           %PDFs einfügen für den Anhang
+\usepackage{listings}                           %Aufzählungen
+\usepackage{chemmacros}                         %--Allgemeines Chemiepackage--
+\usepackage[version=4]{mhchem}                  %Chemische Reaktionsgleichungen
+\usepackage{tikz, pgfplots}   
+\usepackage{chemfig}                            %Chemische Strukturformeln
+\usepackage{hpstatement}                        %P-H-Sätze
+\usepackage{tabularx}
+\usepackage{framed}  %PDFs mit Rahmen
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{cancel}
+\usepackage{epstopdf}
+\usepackage{longtable}
+\usepackage{alphabeta}
+\usepackage{esint}
+\usepackage{bbm}
+\usepackage{textgreek}
+\usepackage{xcolor}
+\usepackage{hyperref}    
+\usepackage{textcomp}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=red,
+    urlcolor=black,
+    pdftitle={document}
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%\usepackage{fancyhdr}
+
+%\usepackage[backend=biber,style=chem-acs]{biblatex}     %Literatur
+%\addbibresource{LitGdM1.bib} 
+
+\usepackage[headsepline]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\clearscrheadfoot
+\ohead{\pagemark}
+\ihead{\headmark}
+\automark[section]{section}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1ex}
+%\pagestyle{headings}
+\newcommand{\MyOwnCaption}{\captionsetup{font=small}}   %Befehl für Schriftgrösse von Bildbeschreibungen
+\setlength{\textwidth}{16cm}
+\setlength{\textheight}{23cm}
+\setlength{\evensidemargin}{0.0cm}
+\setlength{\oddsidemargin}{0.0cm}
+\numberwithin{equation}{section}                     %Gleichungen nummerieren
+
+%Neue Befehle:
+\newcommand{\dede}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\parpar}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\de}{\mathrm{d}}
+\newcommand{\Psirm}{\mathrm{\Psi}}
+\newcommand{\Deltarm}{\mathrm{\Delta}}
+\newcommand{\deff}[2]{\textbf{#1: }\textit{#2}}
+\newcommand{\expp}[1]{\exp{\left\{ #1 \right\}}}
+\newcommand{\sinn}[1]{\sin{\left( #1 \right)}}
+\newcommand{\coss}[1]{\cos{\left( #1 \right)}}
+\newcommand{\lnn}[1]{\ln{\left\{ #1 \right\}}}
+\newcommand{\shortref}[4]{\begin{flushright}[\textit{#1}\;\textbf{#2},\;\textit{#3},\;#4]\end{flushright}}
+\newcommand{\mdred}[2]{\begin{mdframed}[backgroundcolor=red!20]\textbf{#1} #2 \end{mdframed}}
+\newcommand{\mdblue}[2]{\begin{mdframed}[backgroundcolor=blue!20]\textbf{#1} #2 \end{mdframed}}
+\newcommand{\mdgreen}[2]{\begin{mdframed}[backgroundcolor=green!20]\textbf{#1} #2 \end{mdframed}}
+\newcommand{\kb}{k_\mathrm{B}}
+\newcommand{\figapp}[3]{\begin{figure}[H]
+    \centering
+    \MyOwnCaption\psset{unit=1cm}
+       \centering
+       \includegraphics[height=\linewidth,angle=90]{#1}
+    \parbox[b]{15.0cm}{
+\caption{#2}\label{#3}}
+\end{figure}}
+
+%---Make Title---
+\newcommand{\titlee}[2]{\thispagestyle{empty}\begin{center}\begin{LARGE}\sectfont #1 \end{LARGE}\\\vspace{0.5cm} Connor Pütz \textit{puetzc@ethz.ch} (BSc Chemie -- #2)\\\vspace{1cm}\end{center}\tableofcontents\newpage}
+
+\newcommand{\titleee}[2]{\thispagestyle{empty}\begin{center}\begin{LARGE}\sectfont #1 \end{LARGE}\\\vspace{0.5cm} Connor Pütz \textit{puetzc@ethz.ch} (BSc Chemie ETH Zürich -- #2)\\\vspace{1cm}\end{center}\tableofcontents\newpage}
+
+
+\newcommand{\intt}[4]{\int\limits_{#1}^{#2}#3 \ \de #4}
+\newcommand{\vecc}[3]{\begin{pmatrix} #1 \\ #2 \\ #3 \end{pmatrix}}
+
+\newcommand{\shortRefUrl}[5]{\begin{flushright}\href{ #5 }{[\textit{#1}\;\textbf{#2},\;\textit{#3},\;#4]}\end{flushright}}
+
+\DeclareCaptionLabelFormat{custom}{\textbf{#1 #2}}
+\DeclareCaptionLabelSeparator{custom}{:}    
+\DeclareCaptionFormat{custom}{#1 #2 #3}
+\captionsetup{format=custom,labelformat=custom,labelsep=custom}
+
+\usepackage{comment}
+
+\usepackage[most]{tcolorbox}
+%\usepackage{afterpage}
+\usepackage{lmodern}
+
+\newcommand{\tred}[2]{\begin{tcolorbox}[colback=red!5!white, colframe=red!50!black, title=#1, breakable] #2 \end{tcolorbox}}
+
+\newcommand{\tblue}[2]{\begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black, title=#1, breakable] #2 \end{tcolorbox}}
+
+\newcommand{\tgreen}[2]{\begin{tcolorbox}[colback=green!5!white, colframe=green!50!black, title=#1, breakable] #2 \end{tcolorbox}}
+
+\newcommand{\tyellow}[2]{\begin{tcolorbox}[colback=yellow!5!white, colframe=yellow!50!black, title=#1, breakable] #2 \end{tcolorbox}}
+
+\newcommand{\e}[1]{\mathrm{e}^{ #1 }}
+\newcommand{\ima}{\mathrm{i}}
+
+%tikz
+
+\usetikzlibrary{positioning}
+
+\usepackage{xfrac}
+
+\usepackage{enumitem}
