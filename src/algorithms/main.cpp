@@ -3,6 +3,9 @@
 
 #include "selectionsort.cpp"
 #include "mergesort.cpp"
+#include "knappsack.cpp"
+#include "greedy_knappsack.cpp"
+#include "add_queen.cpp"
 
 void printVec(std::vector<int> vec){
     for(auto v : vec){
@@ -12,6 +15,8 @@ void printVec(std::vector<int> vec){
 }
 
 int main(){
+
+    /*
 
     std::vector<int> arr = {5,2,4,7,1,3,2,6};
 
@@ -25,6 +30,8 @@ int main(){
     //mergesort(arr, b, 0, 7);
 
     printVec(arr);
+
+    */
 
     return EXIT_SUCCESS;
 }

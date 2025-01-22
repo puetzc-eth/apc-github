@@ -9,11 +9,11 @@ void mergesort (std::vector<int> &a, std::vector<int> &b, unsigned int left, uns
 
         
         for(i = middle + 1; i > left; i--){
-            b[i-1] = a[i-1];
+            b[i - 1] = a[i - 1];
         }
         
         for(j = middle; j < right; j++){
-            b[right+middle-j] = a [j+1];
+            b[right + middle - j] = a [j + 1];
         }
         // combine
         
