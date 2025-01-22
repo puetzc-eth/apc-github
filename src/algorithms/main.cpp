@@ -16,8 +16,6 @@ void printVec(std::vector<int> vec){
 
 int main(){
 
-    /*
-
     std::vector<int> arr = {5,2,4,7,1,3,2,6};
 
     std::vector<int> b;
@@ -30,8 +28,6 @@ int main(){
     //mergesort(arr, b, 0, 7);
 
     printVec(arr);
-
-    */
 
     return EXIT_SUCCESS;
 }
