@@ -33,4 +33,6 @@ int main(){
     std::cout << myshape.rect.width << " " << myshape.rect.height << std::endl;
     // output: 10 20
     // 10 from the radius and 20 from the height that was not overwritten
+    
+    return 0;
 }
