@@ -16,15 +16,19 @@ public:
     unsigned int get_height() const;
 };
 
+// constructor
 rectangle::rectangle(unsigned int w, unsigned int h){
     width = w;
     height = h;
 }
 
+// copy constructor
 rectangle::rectangle(const rectangle &old_rect){
     width = old_rect.width;
     height = old_rect.height;
 }
+
+// assignement operator
 rectangle &rectangle::operator=(const rectangle &old_rect){
     if (this == &old_rect){
         return *this;
@@ -34,10 +38,12 @@ rectangle &rectangle::operator=(const rectangle &old_rect){
     return *this;
 }
 
+// setter
 void rectangle::set_width(unsigned int w){
     width = w;
 }
 
+//getter
 unsigned int rectangle::get_width() const{
     return width;
 }
