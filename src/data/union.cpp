@@ -26,6 +26,11 @@ int main(){
 
     // shape is now a circle (rect is overwritten)
     myshape.circ = mycirc;
-    std::cout << myshape.circ.radius << " " << myshape.rect.width << std::endl;
-    // output: 10 10
+    std::cout << myshape.circ.radius << std::endl;
+    // output: 10
+
+    //asking for the previous type (unions are not type safe)
+    std::cout << myshape.rect.width << " " << myshape.rect.height << std::endl;
+    // output: 10 20
+    // 10 from the radius and 20 from the height that was not overwritten
 }
