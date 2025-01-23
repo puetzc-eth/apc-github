@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 
-// #include "struct.cpp"
 #include "class.cpp"
 
 int main(){

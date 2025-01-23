@@ -3,9 +3,12 @@ struct rectangle{
     unsigned int height = 0;
 };
 
-// usage
-struct rectangle myrect;
-myrect.width = 10;
-myrect.height = 20;
+int main(){
+    rectangle myrect;
+    myrect.width = 10;
+    myrect.height = 20;
 
-struct rectangle myrect2 = {50, 20};
+    rectangle myrect2 = {50, 20};
+
+    return 0;
+}
