@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/dev/apc-github/src/search",
-      "program": "c:/dev/apc-github/src/search/build/Debug/outDebug",
+      "cwd": "c:/dev/apc-github/src/data",
+      "program": "c:/dev/apc-github/src/data/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
