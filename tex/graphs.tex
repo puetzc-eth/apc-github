@@ -73,7 +73,7 @@ The breadth-first algorithm starts with a specific source vertex $s$, from which
     \item \textbf{black:} discovered and all neighbours are discovered as well
 \end{itemize}
 
-All gray vertices are in a queue so that they can be processed one after the other. The running time of the algorithm is $\Theta(V+E)$
+All gray vertices are in a queue so that they can be processed one after the other. The running time of the algorithm is $\Theta(V+E)$.
 
 Procedure:
 \begin{enumerate}
@@ -84,7 +84,31 @@ Procedure:
 
 \begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/BfSearch.png}\end{center}
 
+% finished code, but without outpur of the searching
+\lstinputlisting[language=C++]{src/graphs/bf_search.cpp}
+
 \subsubsection{Depth-first (DF) search}
+
+If possible, the depth-first algorithm always searches deeper in the tree first and not as broadly as possible as with the BF algorithm. This creates a depth-first forest. Here, too, you start with a source vertex $s$ and discover all vertices that can be reached via $s$, but the three classifications of the vertices are slightly different:
+
+\begin{itemize}
+    \item \textbf{white:} undiscovered
+    \item \textbf{gray:} first discovered (time $d$)
+    \item \textbf{black:} all neighbours are discovered (time $f$)
+\end{itemize}
+
+The running time of the algorithm is $\Theta(V+E)$. If vertices remain after the algorithm that cannot be reached from the source $s$, the algorithm is continued via a new source $s$.
+
+Procedure:
+\begin{enumerate}
+    \item First, only the given root $s$ is gray. (0)
+    \item Then the neighbor of $s$ becomes gray with the smallest value. (1)
+    \item Then the neighbor of (1) with the smallest value is grayed out again. (2) This continues until a vertex is found that has no neighbors. (3)
+    \item Now the backtracking begins until a vertex is found that still has unexplored neighbors. This then turn gray and the procedure continues.
+\end{enumerate}
+
+% finished code, but without outpur of the searching
+\lstinputlisting[language=C++]{src/graphs/df_search.cpp}
 
 \subsection{Minimum spanning trees}
 
