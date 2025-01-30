@@ -1,0 +1,47 @@
+% Graph
+
+\begin{itemize}
+    \item \textbf{Node/ Vertex}
+    \item \textbf{Edge}
+    \item \textbf{Graph}
+    \item \textbf{Valence}
+    \item \textbf{Adjacent vertices}
+    \item \textbf{Path}
+    \item \textbf{Trees}
+    \item \textbf{}
+\end{itemize}
+
+\subsection{Representations of graphs}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{p{30mm} | p{50mm} | p{50mm}}
+        \toprule
+        \textbf{Function} & \textbf{Adjacency list} & \textbf{Adjacency matrix} \\
+        \midrule
+        \lstinline|size()| & Easy, size of a vector & Easy, soize of a vector \\
+        \midrule
+        \lstinline|isConnected()| & Difficult, search in linked list & Easy, direct access \\
+        \midrule
+        \lstinline|getNeighbours()| & Easy, copy of linked list & Difficult, search in row \\
+        \midrule
+        \lstinline|addEdge()| & Easy, append linked list & Easy, set matrix element to 1 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsubsection{Adjacency list}
+
+\lstinputlisting[language=C++]{src/graphs/graph_list.cpp}
+
+\subsubsection{Adjacecy matrix}
+
+\lstinputlisting[language=C++]{src/graphs/graph_matrix.cpp}
+
+\subsection{Searching a graph}
+
+\subsection{Minimum spanning trees}
+
+\subsection{Single-source shortest paths}
+
+\subsection{All-pair shortest paths}
