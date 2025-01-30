@@ -1,12 +1,10 @@
-#include<iostream>
+#include <iostream>
 
 #include "graph.cpp"
 
-int main(){
-
+int main()
+{
     std::cout << "hallo" << std::endl;
-
     Graph mygraph(1);
-
     return 0;
 }
