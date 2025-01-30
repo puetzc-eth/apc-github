@@ -103,6 +103,7 @@
     "streambuf": "cpp",
     "typeinfo": "cpp",
     "complex": "cpp",
-    "sstream": "cpp"
+    "sstream": "cpp",
+    "list": "cpp"
   }
 }
