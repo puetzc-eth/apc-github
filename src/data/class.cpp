@@ -183,6 +183,8 @@ void colRectangle::print_properties(){
 
 int main(){
 
+    //hallo
+
     std::cout << "hallo" << std::endl;
 
     rectangle myrect = {10, 20};
