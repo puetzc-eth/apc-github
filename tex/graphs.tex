@@ -179,13 +179,9 @@ During the algorithm, a distance table, which is initially the adjacency matrix 
     \end{enumerate}
 \end{enumerate}
 
-\begin{center}
-    \includegraphics[width=0.85\textwidth]{img/graphs/DijkstraGraph.png}
-\end{center}
+\begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/DijkstraGraph.png}\end{center}
 
-\begin{center}
-    \includegraphics[width=0.85\textwidth]{img/graphs/DijkstraVectorGraph.png}
-\end{center}
+\begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/DijkstraVectorGraph.png}\end{center}
 
 %algorithmus ist fertig
 %\lstinputlisting[language=C++]{src/graphs/dijkstra.cpp}
@@ -193,8 +189,34 @@ During the algorithm, a distance table, which is initially the adjacency matrix 
 \subsection{All-pair shortest paths}
 
 The \emph{All-pair shortest paths} problem is to do the single-source shortest paths problem on every vertex of a graph so that you get the length $d_{ij}$ of the shortest path between every two vertices of the graph. Here negative weights of the edges are also possible. For this problem you can choose between two algorithms.
+
 \begin{itemize}
-    \item 
+    \item \textbf{Dijkstra's algorithm starting at each vertex}
+    \begin{itemize}
+        \item Only if weights are all positive
+        \item Running time: $\Theta(V^3)$ (With improvements: $\Theta(V(V+E)\lg V)$ or $\Theta(VE\lg V)$)
+        \item Good for sparse graphs
+    \end{itemize}
+    \item \textbf{Floyd-Warshall algorithm}
+    \begin{itemize}
+        \item Running time: $\Theta(V^3)$
+        \item Good for dense graphs
+    \end{itemize}
 \end{itemize}
 
 \subsubsection{Floyd-Warshall algorithm}
+
+The Floyed-Warshall algorithm is a \emph{dynamic programming} algorithm to determine the shortest path between each vertex of a graph and, unlike the Dijkstra's algorithm, can also handle negative edge weights. The running time is $\Theta(V^3)$, but the inner loop is very simple. The idea of the algorithm is to compare all possible paths in the graph and to build an increasingly better distance matrix to determine the shortest paths. To do this, it checks for each vertex whether it is better to take the direct route from $v_i$ to $v_j$ or to include the vertex $v_k$ as an intermediate step.
+
+\begin{enumerate}
+    \item Loop over all vertices $k$
+    \item Check for each pair of vertices $v_i$ and $v_j$ whether the distance $d_{ij}$ can be made shorter via vertex $v_k$
+    \begin{itemize}
+        \item \lstinline|shortestPath(i,j,k)| returns the shortest possible path from $v_i$ to $v_j$ using only vertices from the set $\{1,2,\cdots,k\}$
+    \end{itemize}
+\end{enumerate}
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/FloydWarshallGraph.png}\end{center}
+
+%algorithmus ist fertig
+%\lstinputlisting[language=C++]{src/graphs/floyed_warshall.cpp}
