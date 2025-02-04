@@ -1,0 +1,233 @@
+\subsection{Systems of Equations}
+
+\subsubsection{Gauss-elimination}
+
+\textit{Given a Matrix of $\mathrm{N^2}$ dimensions, the Gauss-elimination algorithm will perform a classical gauss elimination as done on paper. For a given Matrix A, and its corresponding coefficient vector b, it will stepwise apply equation \ref{eq: Gauss_elim}. Keep in mind, that the actual algorithm will not have a separate b vector, but instead one largeer A matrix with N rows and N+1 columns}
+
+\begin{align}
+    A[j][k] = A[j][k] - A[i][k] \cdot \frac{A[j][i]}{A[i][i]}
+    \label{eq: Gauss_elim}
+\end{align}
+
+\begin{align*}
+    \begin{bmatrix}
+        5 & 2 & 1 \\
+        2 & 2 & 7 \\
+        6 & 2 & 3 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        5 \\
+        3 \\
+        3 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{The algorithm loops over all rows i and sets element A[j][k] to the new value. This is done by subtracting a[i][k] (so the value of the same column, one row above) with the adjusting factor $\mathrm{\frac{A[j][i]}{A[i][i]}}$, which is the first non-zero element of row j, divided by the first non-zero element of i, which is also the diagonal element. Note that k (the column iterator) starts at the right, as it would otherwise overwrite the first element of the j row, which would become zero, giving the false result for the other elements.}
+
+\textit{For the $\mathrm{2^{nd}}$ row, the algorithm will apply equation \ref{eq: Gauss_elim} as follows}
+
+\begin{align*}
+    \begin{bmatrix}
+        5 & 2 & 1 \\
+        \color{red}2 & \color{red}2 & \color{red}7 \\
+        6 & 2 & 3 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        5 \\
+        \color{red}3 \\
+        3 \\
+    \end{bmatrix}
+\end{align*}
+
+\begin{align*}
+    A[2][1] &= 2 - 5 \cdot \frac{2}{5} = 0 \\
+    A[2][2] &= 2 - 2 \cdot \frac{2}{5} = 1.2 \\
+    A[2][3] &= 7 - 1 \cdot \frac{2}{5} = 6.6 \\ \\
+    b[2] &= 3 - 5 \cdot \frac{2}{5} = 1
+\end{align*}
+
+\begin{align*}
+    \begin{bmatrix}
+        5 & 2 & 1 \\
+        \color{red}0 & \color{red}1.2 & \color{red}6.6 \\
+        6 & 2 & 3 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        5 \\
+        \color{red}1 \\
+        3 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{Analogously for the $\mathrm{3^{rd}}$ row.}
+
+\begin{align*}
+    \begin{bmatrix}
+        5 & 2 & 1 \\
+        0 & 1.2 & 6.6 \\
+        \color{red}0 & \color{red}-0.4 & \color{red}1.8 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        5 \\
+        1 \\
+        \color{red}-3 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{The algorithm now divides the first row by its first element.}
+
+\begin{align*}
+    \begin{bmatrix}
+        \color{red}1 & \color{red}0.4 & \color{red}0.2 \\
+        0 & 1.2 & 6.6 \\
+        0 & -0.4 & 1.8 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \color{red}1 \\
+        1 \\
+        -3 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{Now, i is increased by one, and the same process is repeated to eliminate $\mathrm{A[3][2] = -0.4}$.}
+
+\begin{align*}
+    \begin{bmatrix}
+        1 & 0.4 & 0.2 \\
+        0 & 1.2 & 6.6 \\
+        0 & \color{red}0 & \color{red}4 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1 \\
+        1 \\
+        \color{red}-2.67 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{The algorithm will now again divide the $\mathrm{2^{nd}}$ row by its first non-zero, and iterate to the next one. In this case, its the last row, where $\mathrm{i+1 = j \geq N}$, which skips the loop and goes straight to dividing by the first non-zero element (in this case 4)}
+
+\begin{align*}
+    \begin{bmatrix}
+        1 & 0.4 & 0.2 \\
+        0 & 1 & 5.5 \\
+        0 & 0 & 1 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1 \\
+        0.83 \\
+        -0.67 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{For the substitution, we now use equation \ref{eq: Gauss_subst}. Note, that A[j][N-1] is the corresponding row in the b vector. In this case, x is a vector that has been initialized to 0.}
+
+\begin{align}
+    \label{eq: Gauss_subst}
+    A[j][N-1] = A[j][N-1] - A[j][k] * x[k]
+\end{align}
+
+\begin{align*}
+    \begin{bmatrix}
+        1 & 0.4 & 0.2 \\
+        0 & 1 & 5.5 \\
+        0 & 0 & 1 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1 \\
+        0.83 \\
+        -0.67 \\
+    \end{bmatrix}
+    \rightarrow
+    x =
+    \begin{bmatrix}
+        0 \\
+        0 \\
+        0 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{This is trivial for the first row, as it is already solved and has only one variable. Subsequently, $\mathrm{x_j}$ is set to $\mathrm{\frac{a[j][N-1]}{a[j][j]}}$ where a[j][j] is the diagonal element. For the $\mathrm{3^{rd}}$ row, this looks as such.}
+
+\begin{align*}
+    \begin{bmatrix}
+        1 & 0.4 & 0.2 \\
+        0 & 1 & 5.5 \\
+        0 & 0 & 1 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1 \\
+        0.83 \\
+        -0.67 \\
+    \end{bmatrix}
+    \rightarrow
+    x =
+    \begin{bmatrix}
+        0 \\
+        0 \\
+        \color{red}-0.67 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{The next row is slightly more sophisticated. Using equation \ref{eq: Gauss_subst} yields:}
+
+\begin{align*}
+    b[2] = 0.83 - 5.5 \cdot -0.67 = 4.5\\
+\end{align*}
+
+\begin{align*}
+    \begin{bmatrix}
+        1 & 0.4 & 0.2 \\
+        0 & 1 & 0 \\
+        0 & 0 & 1 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1 \\
+        \color{red}4.5 \\
+        -0.67 \\
+    \end{bmatrix}
+    \rightarrow
+    x =
+    \begin{bmatrix}
+        0 \\
+        \color{red}4.5 \\
+        -0.67 \\
+    \end{bmatrix}
+\end{align*}
+
+\textit{And lastly:}
+
+\begin{align*}
+    b[1^\ast] &= 1 - 0.2 \cdot -0.67 = 1.13 \\
+    b[1] &= 1.33 - 0.4 \cdot 4.5 = -0.67 \\
+\end{align*}
+
+\begin{align*}
+    \begin{bmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 5.5 \\
+        0 & 0 & 1 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \color{red}-0.67 \\
+        4.5 \\
+        -0.67 \\
+    \end{bmatrix}
+    \rightarrow
+    x =
+    \begin{bmatrix}
+        \color{red}-0.67 \\
+        4.5 \\
+        -0.67 \\
+    \end{bmatrix}
+\end{align*}
