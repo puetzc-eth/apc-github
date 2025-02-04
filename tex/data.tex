@@ -77,12 +77,19 @@ Classes can have certain member types:
 \lstinputlisting[language=C++]{src/data/queue.cpp}
 
 \subsubsection{Linked lists}
+\textit{A linked list is like a chain, where each segment holds the value of the segment, as well as the pointer to the next segment. The last element points to NULL, and the pointer to the first element must be passed along with the list. \\ 
+When a new element with value \emph{v} and a pointer to its storage \emph{ptr\_to} is added, it is first assigned the pointer to the first position \emph{ptr\_from = ptr\_first}, then the pointer to the first is changed to the pointer to the new element \emph{ptr\_first = ptr\_to}. \\
+This proceeds analogously, if the new element is inserted in the middle of the linked list.}
 
 \subsubsection{Trees (binary search tree)}
+\deff{Tree}{A structure of nodes, with each node having a certain amount of children, and only one parent. Nodes of the same level are not interconnected, and terminal nodes are coined leafs. Each node contains a value (and can additionally have a key (i.e. its priority), and one or more pointers to each of its children. Leafs only have a value and point to NULL.}
+\deff{Binary Search Tree}{A tree, in which each node only has two children (thus only two edges from, and one edge to it). All nodes with lower key value are left of the node, all that have higher key value, are right of it.}
 
 \subsubsection{Heaps}
+\deff{Heaps}{A heap is a kind of binary tree, where in each parent nodes key value is larger than or equal to the key value of its children. This enforces a "top to bottom" order, unlike the "left to right" order of a binary ordered tree.}
 
 \subsubsection{Hash tables}
+\deff{}{}
 
 \subsection{Contiguous implementation}
 

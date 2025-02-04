@@ -53,11 +53,11 @@ A graph $G(V,E)$ with vertices $V$ and edges $E$ can be represented as a adjacen
 
 \subsubsection{Adjacency list}
 
-\lstinputlisting[language=C++]{src/graphs/graph_list.cpp}
+%\lstinputlisting[language=C++]{src/graphs/graph_list.cpp}
 
 \subsubsection{Adjacecy matrix}
 
-\lstinputlisting[language=C++]{src/graphs/graph_matrix.cpp}
+%\lstinputlisting[language=C++]{src/graphs/graph_matrix.cpp}
 
 \subsection{Searching a graph}
 
@@ -85,7 +85,7 @@ Procedure:
 \begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/BfSearch.png}\end{center}
 
 % finished code, but without outpur of the searching
-\lstinputlisting[language=C++]{src/graphs/bf_search.cpp}
+%\lstinputlisting[language=C++]{src/graphs/bf_search.cpp}
 
 \subsubsection{Depth-first (DF) search}
 
@@ -108,7 +108,7 @@ Procedure:
 \end{enumerate}
 
 % finished code, but without outpur of the searching
-\lstinputlisting[language=C++]{src/graphs/df_search.cpp}
+%\lstinputlisting[language=C++]{src/graphs/df_search.cpp}
 
 \subsection{Minimum spanning trees}
 
@@ -129,20 +129,62 @@ Procedure:
 
 \begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/KruskalGraph.png}\end{center}
 
-\lstinputlisting[language=C++]{src/graphs/kruskal.cpp}
+%\lstinputlisting[language=C++]{src/graphs/kruskal.cpp}
 
 \subsubsection{Prim's algorithm}
 
+Prim's algorithm is a greedy algorithm.
+
+Procedure:
+\begin{enumerate}
+    \item Put one random vertex on the tree (e.g. A)
+    \item Find the edge with the lowest weight that connects A to a vertex, that is not in the tree yet. (C)
+    \item Find from C the edge with the lowest weight that connects C to a vertex, that is not in the tree yet, but without building a cycle. (F)
+    \item Continue finding edges with the lowest weight from the last vertex without building a cycle. If there is no edge to a vertex, without building a cycle, go back until you have a vertex with new neighbours.
+    \item Stop if tree contains $V$ vertices or if no more edges can be found.
+\end{enumerate}
 
 \begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/PrimGraph.png}\end{center}
 
-\lstinputlisting[language=C++]{src/graphs/prim.cpp}
+%\lstinputlisting[language=C++]{src/graphs/prim.cpp}
 
 \subsection{Single-source shortest paths}
 
-\subsubsection{Brute-force}
+The \emph{Single-source shortest paths} is to determine the length $d_i$ of the shortest path from the source vertex $v_0$ (single source) to every other vertex $v_i$. For that we use an directed and weighted graph (only positive weights and directed edges) and the length $d_i$ of the path is the sum of the weights along its edges. One can use in principle two algorithms for that:
+
+\begin{itemize}
+    \item \textbf{Brute-force:} Try all combinations of edges with $\Theta((V-1)!)$
+    \item \textbf{Dijkstra's algorithm} Greedy algorithm with $\Theta(V^2)$
+\end{itemize}
 
 \subsubsection{Dijkstra's algorithm}
+
+Dijkkstra's algorithm is a greedy algorithm that can find the weight or distance $d_i$ of the shortest path from a given source vertex 
+$v_0$ to each other vertex $v_i$ of the graph. It runs in a running time of $\Theta(V^2)$, which can be improved to $\Theta((V+E)\lg V)$ for a sparse graph and to $\Theta(E\lg V)$ for a sparse graph in which all vertices can be reached from the source vertex. To do this, the algorithm defines two sets of vertices:
+
+\begin{itemize}
+    \item Vertices that were already considered: Their shortest path is known.
+    \item Vertices that have not been considered yet. 
+\end{itemize}
+
+During the algorithm, a distance table, which is initially the adjacency matrix of the graph, is continuously updated. The weights of the paths from all vertices to the source vertex are stored in a vector.
+
+\begin{enumerate}
+    \item First, determine the direct distance $d_i$ from the source vertex $v_0$ to each vertex $v_i$ of the graph ($d_i=\mathrm{weight}(v_0,v_i)$) and insert the distances into the path vector.
+    \item Create a vector of the size of all vertices, which is initially set to zero for all elements. If a vertex has been taken into account, the vector element for this vertex becomes one. 
+    \item Make a loop over all vertices (An index k is defined which maps to the vertex currently being considered, but which is not the loop index. At the beginning: $k=v_0$):
+    \begin{enumerate}
+        \item Identify the vertex that is at the smallest distance from vertex $v_k$ (the distances of the path vector are used). This vertex has now been taken into account, is now the current vertex and is set to one in the consideration vector.
+        \item Go over all vertices that have not yet been considered and check whether the shortest path to the current vertex $v_k$ plus the distance to the new vertex is smaller than the distance stored in the path vector. If yes. update the path vector.
+    \end{enumerate}
+\end{enumerate}
+
+\begin{center}
+    \includegraphics[width=0.85\textwidth]{img/graphs/DijkstraGraph.png}
+\end{center}
+
+%algorithmus ist fertig
+%\lstinputlisting[language=C++]{src/graphs/dijkstra.cpp}
 
 \subsection{All-pair shortest paths}
 
