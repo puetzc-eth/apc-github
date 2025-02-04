@@ -174,7 +174,7 @@ During the algorithm, a distance table, which is initially the adjacency matrix 
     \item Create a vector of the size of all vertices, which is initially set to zero for all elements. If a vertex has been taken into account, the vector element for this vertex becomes one. 
     \item Make a loop over all vertices (An index k is defined which maps to the vertex currently being considered, but which is not the loop index. At the beginning: $k=v_0$):
     \begin{enumerate}
-        \item Identify the vertex that is at the smallest distance from vertex $v_k$ (the distances of the path vector are used). This vertex has now been taken into account, is now the current vertex and is set to one in the consideration vector.
+        \item Identify the vertex that is at the smallest distance from the source vertex $v_0$ and was not considered yet (the distances of the path vector are used). This vertex has now been taken into account, is now the current vertex and is set to one in the consideration vector.
         \item Go over all vertices that have not yet been considered and check whether the shortest path to the current vertex $v_k$ plus the distance to the new vertex is smaller than the distance stored in the path vector. If yes. update the path vector.
     \end{enumerate}
 \end{enumerate}
@@ -183,9 +183,18 @@ During the algorithm, a distance table, which is initially the adjacency matrix 
     \includegraphics[width=0.85\textwidth]{img/graphs/DijkstraGraph.png}
 \end{center}
 
+\begin{center}
+    \includegraphics[width=0.85\textwidth]{img/graphs/DijkstraVectorGraph.png}
+\end{center}
+
 %algorithmus ist fertig
 %\lstinputlisting[language=C++]{src/graphs/dijkstra.cpp}
 
 \subsection{All-pair shortest paths}
+
+The \emph{All-pair shortest paths} problem is to do the single-source shortest paths problem on every vertex of a graph so that you get the length $d_{ij}$ of the shortest path between every two vertices of the graph. Here negative weights of the edges are also possible. For this problem you can choose between two algorithms.
+\begin{itemize}
+    \item 
+\end{itemize}
 
 \subsubsection{Floyd-Warshall algorithm}
