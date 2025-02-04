@@ -112,9 +112,31 @@ Procedure:
 
 \subsection{Minimum spanning trees}
 
+The \emph{minimum spanning trees problem} is to turn a graph into a tree such that all vertices are connected and the sum of the edge weights is minimal. An important property of this tree is that if the vertices of the graph are arbitrarily divided into two sets, the minimum spanning tree always contains the shortest path between two vertices from both sets. In principle, two algorithms can be applied to the problem, namely \emph{Kruskal's algorithm} (good for sparse graphs) and \emph{Prim's algorithm} (good for dense graphs), which both run in $\Theta(E\lg V)$ time for a graph $G(V,E)$ with vertices $V$ and edges $E$.
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/MinimumSpanningTree.png}\end{center}
+
 \subsubsection{Kruskal's algorithm}
 
+In Kruskal's algorithm, the minimum spanning tree is constructed by joining a set of unconnected vertices together. The tree is therefore built from the root and no edges are deleted, which is why it is particularly suitable for sparse graphs.
+
+Procedure:
+\begin{enumerate}
+    \item Put the edge with the lowest weight in a tree of the forest
+    \item Put the edge into the forest with the next higher weight (algorithm follows ascending weights), provided that adding it does not create a cycle. If it does, skip that edge.
+    \item Stop after $V-1$ edges have been considered (ensures that all vertices are connected to each other). 
+\end{enumerate}
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/KruskalGraph.png}\end{center}
+
+\lstinputlisting[language=C++]{src/graphs/kruskal.cpp}
+
 \subsubsection{Prim's algorithm}
+
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/graphs/PrimGraph.png}\end{center}
+
+\lstinputlisting[language=C++]{src/graphs/prim.cpp}
 
 \subsection{Single-source shortest paths}
 
