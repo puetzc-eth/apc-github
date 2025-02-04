@@ -3,31 +3,63 @@
 \subsection{Search algorithms}
 
 \subsubsection{Sequential search}
+\deff{Sequential search}{A sequential search is employed for searching a linked list. It goes element by element until it finds the searched key value. This is a \emph{Brute Force} algorithm that scales with \Theta lg(N)}
 
 %\lstinputlisting[language=C++]{src/search/mergesort.cpp}
 
 \subsubsection{Binary search}
+\deff{Binary search}{It is the fasted way to search an ordered list. It takes an ordered list, and splits it equally. Then it compared the searched key to the mean of the two ends, and goes left or right accordingly, until the item is found, or there is only one element left. It is a \emph{Divide and Conquer} algorithm. \Theta (lgN)}
+\begin{align*}
+    \mathrm{does \; [1,2,3,4,6,7] \; contain \; 5?} \\
+\end{align*}
+\begin{align*}
+    [1,2,3,4,6,7] \\
+    [1,2,3] \; [4,6,7] \\
+    5 > 3.5 \rightarrow 5 \; must \; be \; right \\
+    \color{red}\cancel{\color{black}[1,2,3]} \color{black}[4,6,7] \\
+    [4,6,7] \\
+    [4] [6,7] \\
+    5 > 4.5 \rightarrow 5 \; must \; be \; right \\
+    \color{red}\cancel{\color{black}[4]} \color{black} [6,7] \\
+    [6,7] \\
+    [6][7] \\
+    5 < 5.5 \\
+    [6]\color{red}\cancel{\color{black}[7]} \\
+    5 \neq 6 \\
+    5 \; not \; found \\
+\end{align*}
 
 \subsubsection{Binary tree search}
+\deff{Binary tree search}{This search is very efficient. It simply compares its search key to the current key, if the search key is larger its goes right, if its smaller it goes left. If its the same, it returns the value.}
 
 \subsection{String search: find a word in a text}
+\deff{String search}{This algorithm will search for a pattern M in a larger string N.}
 
 \subsubsection{Brute force}
+\deff{Brute force string search}{Searches all position for the pattern, and scales with \Theta (NM)}
 
 \subsubsection{Knuth-Morris-Pratt}
+\deff{Knuth-Morris-Pratt}{This algorithm uses a k value, to denote repetitive sequences in the pattern, reducing the amount of comparisons. k is set to the largest k < j (not negative) for which the first k characters of the pattern match the last k characters of the first j characters of the pattern. This is determined in an iterative fashion, where j loops over the length of the pattern, and compares the k first and k last of the pattern with one another. Upon a match, the $\mathrm{k_{max}}$ is set to k. Iterating top down (starting with k = j-1) immediately yields the maximal k for this j. After the pattern has been looped over, one can use the k value to skip ahead upon a template pattern mismatch. }
+
 
 \subsubsection{Boyer-Moore}
+\deff{Boyer-Moore}{A brilliant algorithm, with \Theta N/M that works best for large alphabets and short patterns. The pattern is grafted to the template, and the comparison start at the right end of the pattern. If the characters match, we check the next one to the left. If its a mismatch, then we check if the character is even in the pattern. If it is, we slide the pattern to match the position, if not, we slide past that character and start anew.}
 
 \subsubsection{Rabin-Karp}
+\deff{Rabin-Karp}{This algorithm uses hash-codes, to encode the pattern, and all possible sections of the template that have the same length as the pattern. In case of collisions, there is only a few matches to check trough one by one. This makes it easier, cause int comparison is easier than string comparison. For the hash function, we use a modulo with a large prime number}
 
 \subsection{Sort algorithms:}
 
 \subsubsection{Insertion sort}
+\deff{Insertion sort}{Functions very similarly to the selection sort, but looks at the current element, and compares it to all that came before. If it is smaller, it is inserted at the appropriate point. \Theta($\mathrm{N^2}$)}
 
 \subsubsection{Selection sort}
+\deff{Selection sort}{Goes through an array, and switches, if there is a smaller value. \Theta($\mathrm{N^2}$)}
 
 \subsubsection{Mergesort}
+\deff{Mergesort}{A recursive algorithm that first devides the list into its individual elements, then merges them again, sorting upon merging until the whole list is remerged and sorted. \Theta(NlgN).}
 
 \subsubsection{Heapsort}
+\deff{Heapsort}{Builds a heap from the list. Then iteratively removes elements and uses downheap to enforce the heap condition, until the list is sorted. \Theta(NlgN).}
 
 \subsubsection{Quicksort}
