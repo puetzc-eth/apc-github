@@ -18,13 +18,13 @@
 
 Since the members of a structs are public, the members of a structs can also be accessed without getter or setter functions (with a dot between struct name and variable name).
 
-\lstinputlisting[language=C++]{src/data/struct.cpp}
+%\lstinputlisting[language=C++]{src/data/struct.cpp}
 
 \subsubsection{Unions}
 
 \deff{Unions}{Similar to a struct, a union can also have several members declared, but can only store one member. If the first variable is used first and then the second, the first is overwritten.}
 
-\lstinputlisting[language=C++]{src/data/union.cpp}
+%\lstinputlisting[language=C++]{src/data/union.cpp}
 
 Unions are no longer used in modern C++ because, as can be seen above, it is not an error to ask for the previous data type of a union, only the values of the new data type are returned, which does not make unions \emph{type safe}. For this reason, the variant type (std::variant$<$struct rectangle, struct circle$>$ vshape) was introduced with C++17, which is type safe and outputs an error as soon as an overwritten data type is requested. 
 
@@ -32,7 +32,7 @@ Unions are no longer used in modern C++ because, as can be seen above, it is not
 
 \deff{Enumerations}{For enumerations, so-called tags (the tags Monday, Tuesday, ...) are interpreted as ascending ints, which can then be used in the main program. }
 
-\lstinputlisting[language=C++]{src/data/enum.cpp}
+%\lstinputlisting[language=C++]{src/data/enum.cpp}
 
 Since ints can also be used for arithmetic operations, the tags can also be used for normal calculations, but there is also an enum class that cannot do this, as this can often be confusing.
 
@@ -66,15 +66,15 @@ Classes can have certain member types:
     \item \textbf{Scope resolution operator}
 \end{itemize}
 
-\lstinputlisting[language=C++]{src/data/class.cpp}
+%\lstinputlisting[language=C++]{src/data/class.cpp}
 
 \subsection{Abstract Data Types}
 
 \subsubsection{Stacks and queues}
 
-\lstinputlisting[language=C++]{src/data/stack.cpp}
+%\lstinputlisting[language=C++]{src/data/stack.cpp}
 
-\lstinputlisting[language=C++]{src/data/queue.cpp}
+%\lstinputlisting[language=C++]{src/data/queue.cpp}
 
 \subsubsection{Linked lists}
 \textit{A linked list is like a chain, where each segment holds the value of the segment, as well as the pointer to the next segment. The last element points to NULL, and the pointer to the first element must be passed along with the list. \\ 

@@ -1,2 +1,89 @@
-% Approximation Algorithms
+% Approximation Algorithms (1 week)
 
+Often, it is not necessary to find the best solution to a problem, but an approximation of the best solution (i.e. a good solution) is sufficient. In addition, the algorithms for the exact solution are usually very complex and the running time plays a central role in the evaluation of an algorithm.
+
+\begin{itemize}
+    \item \textbf{Turing machine}
+    \begin{itemize}
+        \item To compare the complexity or difficulty of an algorithm, we need to define a model computer on which the algorithm is to run.
+        \item \emph{Deterministic Turing machine:} Processes an algorithm a step at a time (normal computer)
+        \item \emph{Non-Deterministic Turing machine:} Can do multiple steps at a time (fictitious computer)
+    \end{itemize}
+    \item \textbf{Complexity classes}
+    \begin{itemize}
+        \item \emph{P:} Set of decision problems that can be solved by a deterministic Turing machine in \textbf{p}olynomial time
+        \item \emph{NP:} Set of decision problems that can be solved by a \textbf{n}on-deterministic Turing machine in \textbf{p}olynomial time
+        \item All problems in \textbf{P} are also in \textbf{NP} (Open question: Are all problems in \textbf{NP} also in \textbf{P})
+    \end{itemize}
+    \item \textbf{Problem reduction}
+    \begin{itemize}
+        \item \emph{Reducibility:} Problem $X$ can be transformed into problem $Y$ by a reduction function such that the answers of $X$ and $Y$ are the same.
+        \item If a problem $X$ can be reduced to problem $Y$, each algorithm solving $Y$ can also be used to solve $X$ (If there is a polynomial-time algorithm for problem $Y$, there is also one for $X$).
+        \item e.g. Problem of taking the square of a number is polynomial-reducible to the problem of multiplying two numbers.
+    \end{itemize}
+    \item \textbf{NP-completeness}
+    \begin{itemize}
+        \item 
+    \end{itemize}
+\end{itemize}
+
+Most of the problems that we want to solve with approximation algorithms are NP-complete, which is because they follow a boolean logic, are subject to the graph data type, etc. When designing an algorithm, the main goal is to find the optimal solution quickly for all possible cases. Since this is virtually impossible for an approximation, we follow these steps:
+
+\begin{itemize}
+    \item Relax requirement for \emph{speed:} If N is small, an algorithm with exponential running time might be okay.
+    \item Relax requirement for \emph{generality:} Isolate important special cases that can be solved in polynomial time.
+    \item Relax requirement for \emph{optimal solution:} Find near-optimal solutions (approximations) in polynomial time (either worst-case or average case) à in practice, this is often good enough
+\end{itemize}
+
+A well-known problem from the world of approximation algorithms is the \emph{Traveling Salesman Problem} (TSP), in which the optimal path in a graph (undirected, weighted dense graph) is to be found, in which each vertex is visited exactly once and one starts at the same vertex as one ends. It is a NP-hard optimization problem and worst-case running time is superpolynomial with $\Theta(N!)$. There are four broad types of approximation algorithms:
+
+\begin{itemize}
+    \item \textbf{Greedy Algorithm}
+    \begin{itemize}
+        \item At each decision point, select the option that yields the largest immediate progress towards the goal.
+        \item Running time for TSP: $\Theta(N)$
+    \end{itemize}
+    \item \textbf{Local search}
+    \begin{itemize}
+        \item Guess an arbitrary solution and try to improve.
+        \item Running time for TSP: difficult to estimate, but usually very efficient
+    \end{itemize}
+    \item \textbf{Approximate dynamic programming}
+    \begin{itemize}
+        \item Combine the solutions of subproblems.
+        \item Running time for TSP: $\Theta(N^22^N)$
+    \end{itemize}
+    \item \textbf{Backtracking with heuristics}
+    \begin{itemize}
+        \item 
+        \item Running time for TSP: difficult to estimate
+    \end{itemize}
+\end{itemize}
+
+\subsection{Approximate dynamic programming}
+
+The idea of the dynamic programming approach is to first solve subproblems of the actual problem and then combine them to find a solution. To do this, we define $S$ as the set of vertices that have not yet been visited. We start the journey at 0 and the journey ends at vertex $j\in\{1,2,\cdots,N-1\}$, where $N$ is the number of vertices. We denote the problem as $C(S,j)$ (mathematically, $C(S,j)$ is the total cost of the path), where the journey starts at 0, ends at $j$ and in between all vertices of the set $S$ without $j$ are visited. So the subproblem is to find the minimum for a vertex $i$ (penultimate vertex) that is in $S$ and is not $j$, so that we have reduced the overall problem by one vertex to $C(S-\{i\},i)$ and can raise it back to the overall problem by adding the distance $d_{i,j}$.
+
+\begin{align}
+    C(S,j)=\min_{i\in S\;i\neq j}\left\{d_{i,j}+C(S-\{i\},i)\right\}
+\end{align}
+
+Thus, we generate $N^2N^2$ subproblems, each of which has a linear running time, which is why overall we have a running time of $\Theta(N^2N^2)$.
+
+% not finished code
+%\lstinputlisting[language=C++]{src/approximation/dynamic.cpp}
+
+\subsection{Backtracking with heuristics}
+
+% not finished code
+%\lstinputlisting[language=C++]{src/approximation/backtracking.cpp}
+
+\subsection{Local search}
+
+% not finished code
+%\lstinputlisting[language=C++]{src/approximation/local_search.cpp}
+
+\subsection{Greedy algorithm}
+
+% not finished code
+%\lstinputlisting[language=C++]{src/approximation/greedy.cpp}
