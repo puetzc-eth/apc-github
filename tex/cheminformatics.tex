@@ -21,9 +21,49 @@ A central and fundamental area of cheminformatics is the digital \emph{represent
 
 \subsection{1D representation}
 
-
+The most efficient way to represent molecules for storage is a 1D representation. Furthermore, it can be easily interpreted by a computer and searched in a database. However, it is important that the representation is \emph{reversible}, that the transformations 2D $\rightarrow$ 1D and 1D $\rightarrow$ 2D can be carried out without any problems, and that the representation is \emph{unique}. To achieve this, stereochemistry and aromaticity must be retained in the representation. Examples of such representations are the IUPAC name, WLN, SLN, SMILES and InChI, although we will only deal with the latter two in the following.
 
 \subsubsection{SMILES}
+
+SMILES stands for \emph{Simplified Molecular Input Line Entry System}. It was introduced in 1988 and is based on representing the chemical structure using letters according to established rules. On the computer, a \emph{minimum spanning tree} is first created from a graph, which is then translated into the SMILES using a \emph{depth-first} algorithm, whereby different applicable SMILES are generated depending on which atom is started with. Therefore, a \emph{canonicalization} is needed to make the representation unique. SMILES follows the following rules:
+
+\begin{itemize}
+    \item Hydrogens as well as single and aromatic bonds are usually omitted, but can be specified explicitly if desired.
+    \item \textbf{Atoms:}
+    \begin{itemize}
+        \item General: Atomic symbol in square brackets
+        \item “Organic” subset (= B, C, N, O, P, S, F, Cl, Br, I) can be written without brackets if the number of attached Hs is “normal”.
+        \item Attached hydrogens and formal charges always specified inside brackets.
+        \item Atoms in aromatic rings are specified by lower case letters (i.e. c, n).
+        \item Stereocentres are specified with @ (anti-clockwise writing of neighbors) and @@ (clockwise writing of neighbors) inside brackets.
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesAtoms.png}\end{center}
+    \item \textbf{Bonds:}
+    \begin{itemize}
+        \item Single bond: “-”, double bond: “=“, triple bond: “#”, aromatic bond: “:”
+        \item Cis/trans double bonds: use of “/” and “\”, e.g.
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesBonds.png}\end{center}
+    \item \textbf{Branches:}
+    \begin{itemize}
+        \item Specified by parentheses
+        \item Can be nested or stacked
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesBranches.png}\end{center}
+    \item \textbf{Cyclic structures:}
+    \begin{itemize}
+        \item Represented by breaking one bond (to get spanning tree) and numbering the ring-closure atoms
+        \item Ring-closure digits can be reused
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesCyclic.png}\end{center}
+    \item \textbf{Aromaticity}
+    \begin{itemize}
+        \item Aromaticity in cheminformatics is a concept! Different definitions/algorithms exist (discussed later). Do not confuse it with a physical phenomenon
+        \item Aromatic bonds are usually omitted
+        \item Atoms in an aromatic ring are specified by lower case letters
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesAromaticity.png}\end{center}
+\end{itemize}
 
 \subsubsection{Canonicalization}
 
