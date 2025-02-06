@@ -41,8 +41,20 @@ int main()
     // matrix to store the costs
     std::vector<std::vector<int>> costs(NUM, std::vector<int>((1 << NUM), -1));
 
+    for (auto vec : costs) {
+        for (auto v : vec) {
+            std::cout << v << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << costs[1].size() << std::endl;
+
+    std::cout << (1 << NUM) << std::endl;
+
     // TSP
     int minpath = calculateCost(costs, dist, 0, 1);
+    
     std::cout << minpath << std::endl;
     // output: 24
 
