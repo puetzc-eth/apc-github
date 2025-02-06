@@ -35,7 +35,11 @@ Most of the problems that we want to solve with approximation algorithms are NP-
     \item Relax requirement for \emph{optimal solution:} Find near-optimal solutions (approximations) in polynomial time (either worst-case or average case) à in practice, this is often good enough
 \end{itemize}
 
-A well-known problem from the world of approximation algorithms is the \emph{Traveling Salesman Problem} (TSP), in which the optimal path in a graph (undirected, weighted dense graph) is to be found, in which each vertex is visited exactly once and one starts at the same vertex as one ends. It is a NP-hard optimization problem and worst-case running time is superpolynomial with $\Theta(N!)$. There are four broad types of approximation algorithms:
+A well-known problem from the world of approximation algorithms is the \emph{Traveling Salesman Problem} (TSP), in which the optimal path in a graph (undirected, weighted dense graph) is to be found, in which each vertex is visited exactly once and one starts at the same vertex as one ends. 
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/approximation/TspOptimalSolution.png}\end{center}
+
+It is a NP-hard optimization problem and worst-case running time is superpolynomial with $\Theta(N!)$. There are four broad types of approximation algorithms:
 
 \begin{itemize}
     \item \textbf{Greedy Algorithm}
@@ -68,7 +72,11 @@ The idea of the dynamic programming approach is to first solve subproblems of th
     C(S,j)=\min_{i\in S\;i\neq j}\left\{d_{i,j}+C(S-\{i\},i)\right\}
 \end{align}
 
-Thus, we generate $N^2N^2$ subproblems, each of which has a linear running time, which is why overall we have a running time of $\Theta(N^2N^2)$.
+Thus, we generate $N^22^N$ subproblems, each of which has a linear running time, which is why overall we have a running time of $\Theta(N^22^N)$.We proceed as follows to implement the algorithm:
+
+\begin{enumerate}
+    \item 
+\end{enumerate}
 
 % not finished code
 %\lstinputlisting[language=C++]{src/approximation/dynamic.cpp}
