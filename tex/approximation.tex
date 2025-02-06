@@ -72,26 +72,75 @@ The idea of the dynamic programming approach is to first solve subproblems of th
     C(S,j)=\min_{i\in S\;i\neq j}\left\{d_{i,j}+C(S-\{i\},i)\right\}
 \end{align}
 
-Thus, we generate $N^22^N$ subproblems, each of which has a linear running time, which is why overall we have a running time of $\Theta(N^22^N)$.We proceed as follows to implement the algorithm:
+Thus, we generate $N^22^N$ subproblems, each of which has a linear running time, which is why overall we have a running time of $\Theta(N^22^N)$. We want to stay at the example above We proceed as follows to implement the algorithm:
 
 \begin{enumerate}
-    \item 
+    \item $C(\{\},j)$ is the shortest path from $0$ to $j$, but all cities besides $j$ was already visited, so $C(\{\},j)=d_{0,j}$ is the only possible path.
+    \item We first calculate all possible combinations of $C(\{S\},j)$, where only one city was not visited yet, so that $|S|=1$. Because this is a problem of we start from 0, end up $j$ and we have to visit only one city in between that, there is only one possible path for this, so we do not have to calculate an minimum.
+    \begin{align*}
+        C(\{1\},2)&=d_{1,2}+C(\{\},1)=d_{1,2}+d_{0,1}=14\\
+        C(\{2\},1)&=d_{2,1}+C(\{\},2)=d_{2,1}+d_{0,2}=17\\
+        C(\{1\},3)&=d_{1,3}+C(\{\},1)=d_{1,3}+d_{0,1}=13\\
+        C(\{3\},1)&=d_{3,1}+C(\{\},3)=d_{3,1}+d_{0,3}=16\\
+        C(\{1\},4)&=d_{1,4}+C(\{\},1)=d_{1,4}+d_{0,1}=10\\
+        C(\{4\},1)&=d_{4,1}+C(\{\},4)=d_{4,1}+d_{0,4}=10\\
+        C(\{2\},3)&=d_{2,3}+C(\{\},2)=d_{2,3}+d_{0,2}=10\\
+        C(\{3\},2)&=d_{3,2}+C(\{\},3)=d_{3,2}+d_{0,3}=11\\
+        C(\{2\},4)&=d_{2,4}+C(\{\},2)=d_{2,4}+d_{0,2}=14\\
+        C(\{4\},2)&=d_{4,2}+C(\{\},4)=d_{4,2}+d_{0,4}=12\\
+        C(\{3\},4)&=d_{3,4}+C(\{\},3)=d_{3,4}+d_{0,3}=11\\
+        C(\{4\},3)&=d_{4,3}+C(\{\},4)=d_{4,3}+d_{0,4}=9
+    \end{align*}
+    \item Now we can increase the size of $S$ by one, so that we have $|S|=2$, but with that we have two possible values for $i$. Because of that we now have to determine a minimum between two values, but when we use the formula to reduce the problem to a smaller size of $S$, we can use the values above.
+    \begin{align*}
+        C(\{1,2\},3)&=\min_{i\in\{1,2\}}\left\{d_{i,3}+C(\{1,2\}-\{i\},i)\right\}\\
+        &=\min\left\{\{d_{1,3}+C(\{2\},1)\},\{d_{2,3}+C(\{1\},2)\}\right\}\\
+        &=\min\left\{\{9+17\},\{3+14\}\right\}=\min\{28,17\}=17\\
+    \end{align*}
+    \item We continue to increase the size of $S$ by one until we get to our final $S$ and fill in each step the values from before to determine the min. 
+    \begin{align*}
+        C(\{1,2,3\},4)&=\min_{i\in\{1,2,3\}}\left\{d_{i,4}+C(\{1,2,3\}-\{i\},i)\right\}\\
+        C(\{1,2,3,4\},0)&=\min_{i\in\{1,2,3,4\}}\left\{d_{i,0}+C(\{1,2,3,4\}-\{i\},i)\right\}\\
+    \end{align*}
 \end{enumerate}
 
-% not finished code
+% finished code (but with out comments)
 %\lstinputlisting[language=C++]{src/approximation/dynamic.cpp}
 
 \subsection{Backtracking with heuristics}
 
+
+
 % not finished code
 %\lstinputlisting[language=C++]{src/approximation/backtracking.cpp}
 
+\subsection{Greedy algorithm}
+
+A greedy algorithm is based on always making the decision with the smallest weight from a starting point, so in terms of graph theory, that you start at a certain vertex and from there always select the edge with the smallest weight. At TSP, we proceed as follows, always keeping in mind that the result depends on the starting vertex:
+
+\begin{enumerate}
+    \item Start from a random city.
+    \item Go to the nearest city not visited yet.
+    \item Repeat until all cities have been visited and finally return to starting city.
+\end{enumerate}
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/approximation/TspGreedy1.png}\includegraphics[width=0.85\textwidth]{img/approximation/TspGreedy2.png}\includegraphics[width=0.85\textwidth]{img/approximation/TspGreedy3.png}\end{center}
+
+% finished code
+%\lstinputlisting[language=C++]{src/approximation/greedy.cpp}
+
 \subsection{Local search}
+
+The local search approach generally involves guessing a solution to the problem and then improving this solution by swapping. Applied to the TSP, this involves guessing a possible path and swapping two cities and calculating the length of the new path until the length can no longer be reduced. The central problem with the local search algorithm, however, is that it can get stuck at local minima of the problem, which can be somewhat improved with tweaks such as more complicated swapping. The algorithm proceeds as follows:
+
+\begin{enumerate}
+    \item Guess a solution.
+    \item Interchange two cities and evaluate new tour $\rightarrow$ take if length decreases.
+    \item Repeat this step until the length can no longer be reduced.
+\end{enumerate}
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/approximation/TspLocalSearch.png}\end{center}
 
 % not finished code
 %\lstinputlisting[language=C++]{src/approximation/local_search.cpp}
 
-\subsection{Greedy algorithm}
-
-% not finished code
-%\lstinputlisting[language=C++]{src/approximation/greedy.cpp}
