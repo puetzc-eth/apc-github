@@ -160,7 +160,59 @@ Figueras' algorithm is an algorithm presented in 1996 to determine the SSSR of a
 
 \subsubsection{Aromaticity detection}
 
+The definition of armoaticity is not trivial and the implementation in cheminformatics is still under discussion, because for cheminformatics a definition has to be found that is as simple as possible, that applies in most cases and is co-agent with SMILES and substructure search. Therefore, the cheminformatics definition does not necessarily imply physical properties of the molecule.
+
+\begin{itemize}
+    \item \textbf{Hückel's rule:}
+    \begin{itemize}
+        \item $(4n+2)\;\pi$-electrons $\rightarrow$ aromatic
+    \end{itemize}
+    \item \textbf{Extension of Hückel’s rule:}
+    \begin{itemize}
+        \item $(4n+2)\;\pi$-electrons and all atoms $\mathrm{sp}^2$ (planar) $\rightarrow$ aromatic
+    \end{itemize}
+\end{itemize}
+
+With SMILES, both the Kekulè form (localized double bonds) can be used, as well as the explicit labeling of aromaticity with lowercase letters, whereby the latter is the preferred output of SMILES, since the former creates an artificial asymmetry.
+
+\begin{align*}
+    &\textit{Exapmle: benzene}&\begin{cases}
+        \textit{Kekulè: }&\text{C1=CC=CC=C1}\\
+        \textit{SMILES: }&\text{c1ccccc1}
+    \end{cases}
+\end{align*}
+
+Aromatic systems over several rings are generally more difficult. For example, non-aromatic single bonds between two aromatic rings should be explicitly written with “-” in SMILES (e.g. biphenyl with c1ccccc1-c2ccccc2).
+
+\paragraph{Aromaticity in the RDKit:}
+The RDKit uses the Hückel rule for aromaticity, whereby a ring or condensed ring system with $(4n+2)\;\pi$-electrons is considered aromatic. Both bonds and atoms can be aromatic, whereby an aromatic bond must be between two aromatic atoms, but a bond between two aromatic atoms does not necessarily have to be aromatic. This is why in condensed ring systems the individual cycle can be not aromatic, but the overall system is.
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/AromaticRdkit.png}\end{center}
+
 \subsection{Substructure search}
+
+In cheminformatics, a distinction is made between three shifting structure searches:
+
+\begin{itemize}
+    \item \textbf{Full structure search:}
+    \begin{itemize}
+        \item Question: Is this molecule in my database?
+        \item Input: Full chemical structure (e.g. SMILES)
+        \item Solution: Comparison of SMILES, InChi (keys), internal index number, etc.
+    \end{itemize}
+    \item \textbf{Substructure search:}
+    \begin{itemize}
+        \item Question: Does this substructure exist in any molecule of my database?
+        \item Input: Query pattern of atoms and bonds (e.g. SMARTS).
+        \item Solution: Brute-force, backtracking, partitioning and relaxation
+    \end{itemize}
+    \item \textbf{Superstructure search:}
+    \begin{itemize}
+        \item Question: Are any molecules in my database substructures of the query?
+        \item Input: full chemical structure (e.g. SMILES)
+        \item Solution: same as substructure search
+    \end{itemize}
+\end{itemize}
 
 \subsubsection{SMARTS}
 
