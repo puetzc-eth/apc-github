@@ -17,7 +17,7 @@ Chemical informatics is the branch of chemistry that attempts to solve chemical 
 
 A central and fundamental area of cheminformatics is the digital \emph{representation of molecules}. For this, we had already introduced graph theory, whereby a molecule can be represented as a graph (vertices are the atoms and edges and their weight are the bonds as well as their bond multiplicity) using an adjacency list or adjacency matrix. Additional information, such as element, stereochemistry, charge or aromaticity, can also be stored in the vertex. The problem with this representation is that it is not very efficient for storage and molecules are difficult to compare. The standard file format for saving chemical structures with coordinates (from crystal structures) is, however, the \emph{Molefile} format, which works with a connection table and is shown below.
 
-\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/DataFormat.png}\end{center}
+\begin{center}\includegraphics[width=0.70\textwidth]{img/cheminformatics/DataFormat.png}\end{center}
 
 \subsection{1D representation}
 
@@ -37,35 +37,78 @@ SMILES stands for \emph{Simplified Molecular Input Line Entry System}. It was in
         \item Atoms in aromatic rings are specified by lower case letters (i.e. c, n).
         \item Stereocentres are specified with @ (anti-clockwise writing of neighbors) and @@ (clockwise writing of neighbors) inside brackets.
     \end{itemize}
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesAtoms.png}\end{center}
+    \begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/SmilesRulesAtoms.png}\end{center}
     \item \textbf{Bonds:}
     \begin{itemize}
-        \item Single bond: “-”, double bond: “=“, triple bond: “#”, aromatic bond: “:”
-        \item Cis/trans double bonds: use of “/” and “\”, e.g.
+        \item Single bond: “-”, double bond: “=“, triple bond: "\#" aromatic bond: “:”
+        \item Cis/trans double bonds: use of “/” and “$\backslash$”, e.g.
     \end{itemize}
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesBonds.png}\end{center}
+    \begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/SmilesRulesBonds.png}\end{center}
     \item \textbf{Branches:}
     \begin{itemize}
         \item Specified by parentheses
         \item Can be nested or stacked
     \end{itemize}
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesBranches.png}\end{center}
+    \begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/SmilesRulesBranches.png}\end{center}
     \item \textbf{Cyclic structures:}
     \begin{itemize}
         \item Represented by breaking one bond (to get spanning tree) and numbering the ring-closure atoms
         \item Ring-closure digits can be reused
     \end{itemize}
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesCyclic.png}\end{center}
+    \begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/SmilesRulesCyclic.png}\end{center}
     \item \textbf{Aromaticity}
     \begin{itemize}
         \item Aromaticity in cheminformatics is a concept! Different definitions/algorithms exist (discussed later). Do not confuse it with a physical phenomenon
         \item Aromatic bonds are usually omitted
         \item Atoms in an aromatic ring are specified by lower case letters
     \end{itemize}
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SmilesRulesAromaticity.png}\end{center}
+    \begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/SmilesRulesAromaticity.png}\end{center}
 \end{itemize}
 
+\textcolor{red}{Beispiele aus den slides machen und einfügen.}
+
+% not finished code
+%\lstinputlisting[language=C++]{src/cheminformatics/smiles.cpp}
+
 \subsubsection{Canonicalization}
+
+As already mentioned, several correct SMILES can be used for one molecule, depending on which atom you start with. Therefore, a canonicalization must be performed to create a unique and reproducible numbering of the atoms of a molecule.
+
+\deff{Graph Isomorphism}{Two graphs are isomorphic when there is a 1-to-1 mapping (a permutation) from the vertices of one graph to the vertices of the other, such that the edge connections are respected. In short, isomorphic graphs are structurally the same, but the labeling of the vertices is different.}
+
+\deff{Graph Invariant}{In graph theory, a graph property or graph invariant is a property of graphs that depends only on the abstract structure, not on graph representations such as particular labellings or drawings of the graph. Therefore, two isomorphic graphs have the same invariants.}
+
+In the example of cheminformatics, the invariants of a graph are usually a combination of information such as element, number of bonds, number of hydrogens, ring information, etc.
+
+\paragraph{Morgan's Algorithm}
+Morgan's algorithm is a canonicalization algorithm for chemical compounds presented in 1965 that uses the number of bonding partners (excluding hydrogen) as invariants. The algorithm proceeds as follows:
+
+\begin{enumerate}
+    \item \emph{Step 1: Find invariants}
+    \begin{itemize}
+        \item First assign the initial invariants to each atom, i.e. the number of bonds.
+        \item Then assign new invariants for each atom, which are the sum of the invariants of the neighbors (excluding its own invariant). Repeat this step until the number of invariants no longer increases.
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/Morgan1.png}\end{center}
+    \item \emph{Step 1: Set ranks}
+    \begin{itemize}
+        \item Take the graph where the number of invariants increased last time (not the graph where they were increased but the number of invariants remained the same).
+        \item Take the largest invariant and set the rank of the atom to 1.
+        \item Take the neighbors of the atom with rank 1, order them by descending invariants and give them the ranks 2-4 accordingly (assuming three are bonded).
+        \item Now always choose the atom with the smallest rank and assign ranks to its neighbors according to descending invariants. Repeat this step until each atom has a rank.
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/Morgan2.png}\end{center}
+\end{enumerate}
+
+The main criticism of Morgan's algorithm is that the summation step produces ambiguous results, which is why uniqueness cannot be proven. One way to solve this is to also include the atom type and bond multiplicity. Furthermore, oscillations can occur for certain symmetrical molecules, so that the first step has no termination condition.
+
+% not finished code
+%\lstinputlisting[language=C++]{src/cheminformatics/morgan.cpp}
+
+\paragraph{Cangen Algorithm}
+
+% not finished code
+%\lstinputlisting[language=C++]{src/cheminformatics/cangen.cpp}
 
 \subsubsection{InChI}
 
