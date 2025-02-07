@@ -90,7 +90,7 @@ Morgan's algorithm is a canonicalization algorithm for chemical compounds presen
         \item Then assign new invariants for each atom, which are the sum of the invariants of the neighbors (excluding its own invariant). Repeat this step until the number of invariants no longer increases.
     \end{itemize}
     \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/Morgan1.png}\end{center}
-    \item \emph{Step 1: Set ranks}
+    \item \emph{Step 2: Set ranks}
     \begin{itemize}
         \item Take the graph where the number of invariants increased last time (not the graph where they were increased but the number of invariants remained the same).
         \item Take the largest invariant and set the rank of the atom to 1.
@@ -107,12 +107,56 @@ The main criticism of Morgan's algorithm is that the summation step produces amb
 
 \paragraph{Cangen Algorithm}
 
+Just like Morgan's algorithm, CANGEN uses the number of binding partners to find the invariants. However, in the iterative calculation, CANGEN uses the product of primes instead of the sum of the invariants of the neighbors, as in Morgan's algorithm, to minimize ambiguities. However, a unique numbering cannot be proven here either.
+
+\begin{enumerate}
+    \item 
+\end{enumerate}
+
 % not finished code
 %\lstinputlisting[language=C++]{src/cheminformatics/cangen.cpp}
 
 \subsubsection{InChI}
 
 \subsubsection{Ring perception}
+
+The idea behind ring perception is to develop an algorithm that can automatically detect ring structures in 1D representations of molecules. The whole thing must therefore be independent of the projection, orientation and labeling of the ring system.
+
+\begin{itemize}
+    \item \textbf{Chords:}
+    \begin{itemize}
+        \item Minimum number of bonds whose removal is required to turn a structure from cyclic to acyclic.
+    \end{itemize}
+    \item \textbf{Nullity:}
+    \begin{itemize}
+        \item Number of chords that can be calculated using the formula below, where components stands for the number of closed graphs (always 1 for a molecule).
+    \end{itemize}
+    \begin{align}
+        \mu=\#_\mathrm{bonds}-\#_\mathrm{atoms}+\#_\mathrm{components}
+    \end{align}
+    \item \textbf{Cycle:}
+    \begin{itemize}
+        \item Traversable node by node in a single path back to the start.
+    \end{itemize}
+\end{itemize}
+
+The size we now want to determine exactly is the smallest set of smallest rings (SSSR), in which as many rings of the smallest possible size as possible are found. 
+
+\begin{center}
+    \includegraphics[width=0.85\textwidth]{img/cheminformatics/RingPerceptionSssr.png}
+\end{center}
+
+\paragraph{Figueras' algorithm}
+Figueras' algorithm is an algorithm presented in 1996 to determine the SSSR of a molecule. The algorithm proceeds as follows:
+
+\begin{enumerate}
+    \item 
+\end{enumerate}
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/RingPerceptionFigueras1.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/RingPerceptionFigueras2.png}\end{center}
+
+% not finished code
+%\lstinputlisting[language=C++]{src/cheminformatics/figueras.cpp}
 
 \subsubsection{Aromaticity detection}
 
