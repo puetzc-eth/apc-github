@@ -221,7 +221,7 @@ SMARTS (SMILES arbitrary target specification) is an extension of the classic SM
 \begin{itemize}
     \item \emph{Atoms:}
     \begin{itemize}
-        \item Specified by either element symbol or number: e.g. [#6] à any carbon
+        \item Specified by either element symbol or number: e.g. [\#6] $\rightarrow$ any carbon
         \item “*” : wild card
         \item “A” : any aliphatic atom
         \item “a” : any aromatic atom
@@ -234,16 +234,16 @@ SMARTS (SMILES arbitrary target specification) is an extension of the classic SM
     \end{itemize}
     \item \emph{Bonds:}
     \begin{itemize}
-        \item “\~” : any bond
+        \item “$\sim$” : any bond
         \item “@” : any ring bond
     \end{itemize}
     \item \emph{Logical operators:} combinations of atom and bond specifications
     \begin{itemize}
-        \item “!” : NOT, e.g. [!C] à not aliphatic carbon
+        \item “!” : NOT, e.g. [!C] $\rightarrow$ not aliphatic carbon
         \item “\&” : AND (high priority)
         \item “,” : OR
         \item “;” : AND (low priority)
-        \item Operator priority: “!” > “&” > “,” > “;”
+        \item Operator priority: “!” > “\&” > “,” > “;”
     \end{itemize}
     \item \emph{Aromaticity:}
     \begin{itemize}
@@ -253,7 +253,46 @@ SMARTS (SMILES arbitrary target specification) is an extension of the classic SM
 
 \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SubstructureSmartsExample.png}\end{center}
 
-\subsubsection{Subgraph isomorphism}
+Algorithmically, however, such a search is not easy to program. If we consider the problem of checking whether two graphs are isomorphic, this algorithm already scales with $\Theta(N!)$, where $N$ is the number of nodes in the graph. In this brute-force algorithm (depth-first tree search), a 1-to-1 mapping is made so that each node from $G_1$ is mapped against an unmapped node from $G_2$ and it is checked whether all neighbors are equal. It is assumed that graph isomorphism is an \emph{NP-complete} problem, but this has not yet been proven rigerously.
+
+\deff{Subgraph isomorphism}{The subgraph isomorphism problem is a generalization of graph isomorphism, where the question is whether $G_1$ is a subgraph of $G_2$. In the worst case this is an NP-complete problem, but average running time is much better than for the classical graph isomorphism problem. In addition, heuristics can be used for molecular graphs, which also reduce the running time (bounded valence and bond multiplicity)}
+
+In general, there are the following algorithms for substructure search:
+
+\begin{itemize}
+    \item \emph{Backtracking}
+    \begin{itemize}
+        \item Rax and Kirsch \shortrefurl{Science}{1975}{126}{814-819}{https://doi.org/10.1126/science.126.3278.814}
+    \end{itemize}
+    \item \emph{Partitioning and relaxation (often combined with backtracking)}
+    \begin{itemize}
+        \item Sussenguth’s partitioning algorithm \shortrefurl{J. Chem. Docum.}{1965}{5}{36-43}{}
+        \item Figueras’ set reduction algorithm \shortrefurl{J. Chem. Docum.}{1972}{12}{237-244}{}
+        \item Ullmann’s algorithm \shortrefurl{J. Assoc. Comput. Mach.}{1976}{23}{31-42}{}
+        \item von Scholley’s relaxation algorithm \shortrefurl{J. Chem. Inf. Comput. Sci.}{1984}{24}{235-241}{}
+        \item vf2 and variants \shortrefurl{IEEE Trans Pattern Analysis Machine Intelligence}{2004}{26}{1367-1372}{}
+    \end{itemize}
+\end{itemize}
+
+In the worst case, the running time is still exponential, but that doesn't happen often.
+
+\subsubsection{Backtracking (Ray and Kirsch)}
+
+Backtracking uses a depth first algorithm (for the searching tree) to map one graph of the pattern (substructure) against the graph of the full molecule. As soon as a branch is no longer possible, it is backtracked to an atom where a solution is still possible.
+
+\begin{enumerate}
+    \item Map arbitrary pair of nodes.
+    \item Map neighbors of these nodes.
+    \item If successful repeat step 2, if not backtrack to step 1 and choose another pair (query atom stays the same).
+\end{enumerate}
+
+The algorithm is terminated when either all atoms of the pattern have been successfully mapped (MATCH) or all mapping attempts of the first query node fail (NO MATCH). You can speed up the algorithm somewhat by, for example, only mapping nodes with the same element, charge and number of bonds against each other, or by starting with unusual atoms with many bonds, because then the probability of recognizing a mismatch earlier is higher.
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SubstructureBacktracking.png}\end{center}
+
+\subsubsection{Partitioning and relaxation (Ullmann's algorithm)}
+
+\subsubsection{Molecular fingerprints}
 
 \subsection{Chemical reactions}
 
