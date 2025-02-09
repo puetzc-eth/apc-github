@@ -216,6 +216,43 @@ In cheminformatics, a distinction is made between three shifting structure searc
 
 \subsubsection{SMARTS}
 
+SMARTS (SMILES arbitrary target specification) is an extension of the classic SMILES to describe molecular patterns (substructures). With SMILES only exact atoms can be specified, whereas with SMARTS wildcards for atoms and bonds are possible, which can simplify the substructure search.
+
+\begin{itemize}
+    \item \emph{Atoms:}
+    \begin{itemize}
+        \item Specified by either element symbol or number: e.g. [#6] à any carbon
+        \item “*” : wild card
+        \item “A” : any aliphatic atom
+        \item “a” : any aromatic atom
+        \item “D” followed by a number : degree (number of explicit connections)
+        \item “R” followed by a number n : in n smallest rings
+        \item “r” followed by a number n : in a smallest ring of size n
+        \item “H” followed by a number : number of adjacent hydrogens
+        \item H has now two meanings: e.g. [H] $\rightarrow$ hydrogen atom, [*H2] $\rightarrow$ any atom with two hydrogens
+        \item Multiple possible matches are separated by a comma: e.g. [C,N] $\rightarrow$ either aliphatic C or N
+    \end{itemize}
+    \item \emph{Bonds:}
+    \begin{itemize}
+        \item “\~” : any bond
+        \item “@” : any ring bond
+    \end{itemize}
+    \item \emph{Logical operators:} combinations of atom and bond specifications
+    \begin{itemize}
+        \item “!” : NOT, e.g. [!C] à not aliphatic carbon
+        \item “\&” : AND (high priority)
+        \item “,” : OR
+        \item “;” : AND (low priority)
+        \item Operator priority: “!” > “&” > “,” > “;”
+    \end{itemize}
+    \item \emph{Aromaticity:}
+    \begin{itemize}
+        \item Note: a double bond is not matched to an aromatic bond!
+    \end{itemize}
+\end{itemize}
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/SubstructureSmartsExample.png}\end{center}
+
 \subsubsection{Subgraph isomorphism}
 
 \subsection{Chemical reactions}
