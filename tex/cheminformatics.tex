@@ -504,6 +504,35 @@ The MCS problem can be reformulated as another classical NP-complete problem in 
 
 \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsAssociationGraph.png}\end{center}
 
+\paragraph{Bron-Kerbosch algorithm}
+
+One algorithm for finding the maximum clique in such an associative graph is the \emph{Bron-Kerbosch} algorithm, which was presented in 1973 and is based on \emph{recursive backtracking}. For molecular graphs, heuristics can be used to reduce the size of the associative graph, for example by including element, hybridization and variant in the atom labels. These adaptations to the Bron-Kerbosch algorithm were presented in the \emph{SIMCOMP} algorithm in 2003. The edge weight of the associative graph can then be based on a full match with respect to atom labels or only a partial match. The search tree can also be processed using a greedy algorithm. The extension of the atom labels in the SIMCOMP algorithm introduced 68 atom types, which are shown below.
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsSimcompAtoms.png}\end{center}
+
+\begin{enumerate}
+    \item Calculate the association graph $AG$ of two initial graphs $G_1$ and $G_2$:
+    \begin{itemize}
+        \item Each vertex of AG corresponds to each atom-match of any possibilities with a proper weight (black: w = 1, grey: w = 0.5)
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsSimcompAlgorithm1.png}\end{center}
+    \item Find maximum clique in AG:
+    \begin{itemize}
+        \item Maximize number of matched atoms
+        \item Normalized score (Tanimoto coefficient):
+        \begin{align}
+            S_\mathrm{Tanimoto}=\frac{|MCS(G_1, G_2)|}{|G_1|+|G_2|-|MCS(G_1,G_2)|}
+        \end{align}
+    \end{itemize}
+    \item With a maximum clique at hand, generate atom-matching list in original graphs (atom alignment):
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsSimcompAlgorithm3.png}\end{center}
+\end{enumerate}
+
+% not finished code
+%\lstinputlisting[language=C++]{src/cheminformatics/bronKerbosch.cpp}
+
+
+
 \subsection{Scaffolds}
 
 \subsection{Generation of 3D coordinates}
