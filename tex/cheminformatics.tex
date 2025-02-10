@@ -540,7 +540,7 @@ The MCS of the entire set must not necessarily be a substructure of the MCS of a
 
 Before the molecules enter the algorithm, a \emph{preprocessing step} is carried out in which all bonds are removed that cannot be part of the MCS because, for example, their type is not contained in all molecules.
 
-\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsFmcsPreprocessing.png}\end{center}
+\begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/McsFmcsPreprocessing.png}\end{center}
 
 The subgraphs are then built up in a breadth-first tree and a priority queue.
 
@@ -582,7 +582,34 @@ An important type of substructure are \emph{scaffolds}, used to classify compoun
 
 \subsection{Generation of 3D coordinates}
 
+The inclusion of multiple conformations in the digital representation of molecules is not that simple, since the 3D structure can only be understood as an ensemble of energetically favorable conformations that are in equilibrium with each other. For biologically active compounds, one can additionally define the \emph{biologically active conformation} that fits into the binding pocket of a protein. The goal of 3D visualization in cheminformatics is to determine a diverse and representative set of energetically favorable conformers as quickly as possible, covering most of the possible conformational space of the molecule. Either \emph{systematic} or \emph{stochastic} algorithms can be used.
+
+\begin{itemize}
+    \item \textbf{Systematic algorithms}
+    \begin{itemize}
+        \item The general idea behind the systematic approach is to consider all possible conformations by incrementally increasing the torsion angles of all rotating bonds.
+        \item The main problem is that this approach is lengthy and impractical for large molecules.
+    \end{itemize}
+    \item \textbf{Stochastic algorithms}
+    \begin{itemize}
+        \item The idea behind the stochastic approach is to collect a large number of random conformations. 
+        \item Examples: Monte Carlo simulated annealing, Genetic algorithms, Distance geometry
+    \end{itemize}
+    \item \textbf{Knowledge-based methods}
+    \begin{itemize}
+        \item Decompose the molecule into fragments, generate conformations for the fragments using predefined libraries for preferred torsion angles and ring conformations, and reassemble the whole molecule in a systematic or stochastic manner
+    \end{itemize}
+\end{itemize}
+
 \subsubsection{Distance geometry}
+
+The mathematical basis for the collection of conformations is \emph{distance geometry}, which is a special case of geometric algebra and makes the fundamental assumption for molecules that the complete set of possible conformations of a molecule can only be defined by geometric considerations. The approach is based on generating a \emph{distance bounds matrix} from the 2D structure (no initial 3D structure is needed as for other approaches), in which the distances of the atoms of the molecule are stored. At the beginning, lower and upper bounds for the possible distances are written into this matrix (upper bound above the main diagonal and lower bound below the main diagonal), which are calculated as follows:
+
+\begin{itemize}
+    \item 
+\end{itemize}
+
+\begin{center}\includegraphics[width=0.45\textwidth]{img/cheminformatics/3dInitialDistanceMatrixEmpty.png}\includegraphics[width=0.45\textwidth]{img/cheminformatics/3dInitialDistanceMatrix.png}\end{center}
 
 \subsection{Clustering}
 
