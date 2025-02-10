@@ -353,14 +353,14 @@ The idea behind fingerprints is to convert structures into 1D bit strings, where
         \item Example: RDKit fingerprint with patterns with subgraphs with $1-7$ bonds (with hashing)
         \item Example: Atom-pairs fingerprint
     \end{itemize}
-    \begin{center}\includegraphics[width=0.85\textwidth{img/cheminformatics/FingerprintsPathBased.png}\end{center}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/FingerprintsPathBased.png}\end{center}
     \item \textbf{Circular fingerprints (Morgan fingerprints)}
     \begin{itemize}
         \item Fragments = circular environments around the atoms with different radii
         \item Circular environments hashed to bit positions
         \item Example: Extended connectivity fingerprints (ECFP)
     \end{itemize}
-    \begin{center}\includegraphics[width=0.85\textwidth{img/cheminformatics/FingerprintsCircular.png}\end{center}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/FingerprintsCircular.png}\end{center}
     \item \textbf{2D pharmacophores}
     \begin{itemize}
         \item Official definition: \emph{Ensemble of steric and electronic features that is necessary to ensure the optimal supramolecular interactions with a specific biological target structure and to trigger (or to block) its biological response}
@@ -369,7 +369,20 @@ The idea behind fingerprints is to convert structures into 1D bit strings, where
     \end{itemize}
 \end{itemize}
 
+\paragraph{Problems}
 The main technical problem with fingerprints is that most molecules have only a very small number of fingerprints out of a very large number of possible fingerprints, so most molecules' fingerprints waste a lot of memory space on zero bits. There are two approaches to solving this problem. One is to use \emph{sparse integer vectors} to store only the on-bits. The other is to introduce a second hashing, which, however, can lead to new collisions.
+
+\paragraph{Similarity metrics}
+Finally, the actual comparison of the fingerprints must also be implemented efficiently. Either all bits match (value = 1) or no bits match (value = 0). If you want to grade the similarity more finely, you can introduce the \emph{Tanimoto coefficient} $\mathrm{sim}_\mathrm{Tanimoto}$.
+
+\begin{align}
+    &\mathrm{sim}_\mathrm{Tanimoto}=\frac{N_{A\&B}}{N_{A}+N_{B}-N_{A\&B}}&\begin{cases}
+        N_X&\textit{number of on-bits in fingerprint X}\\
+        N_{A\&B}&\textit{number of common on-bits in A and B}
+    \end{cases}
+\end{align}
+
+The actual comparison operations of the bits are to be introduced using binary LOGIC via AND OR and XOR.
 
 \subsection{Chemical reactions}
 
@@ -420,7 +433,48 @@ Another approach is to focus only on the reaction center, i.e. those atoms and b
 
 \subsection{Dimensionality reduction}
 
+The problems we consider in chemistry and biology are usually high-dimensional, but not all dimensions are always needed for each solution. To solve the complexity of a problem in principle, it may therefore be useful to reduce the dimensionality of the problem. Dimensionality reduction can be very helpful when working with molecular fingerprints. This data transformation can be linear or non-linear, some methods being the following:
+
+\begin{itemize}
+    \item Principal component analysis (PCA)
+    \item Factor analysis
+    \item Multidimensional scaling (MDS)
+    \item Isomap
+    \item Local linear embedding
+\end{itemize}
+
+\subsubsection{Principal component analysis (PCA)}
+
+PCA is a linear data transformation that maximizes the variance of the data in the lower-dimensional representation. This allows data sets of ratio-scaled variables to be simplified and visualized by approximating a large number of statistical variables by a smaller number of meaningful linear combinations (the principal components). In principle, PCA can be used for all dimensionalities, but in the following procedure we show PCA for two dimensions:
+
+\begin{enumerate}
+    \item For each dimension/variable, calculate the deviation from the mean.
+    \begin{align}
+        &x_i^\prime=x_i-\bar{x}&y_i^\prime=y_i-\bar{y}
+    \end{align}
+    \item Calculate the N-dimensional \emph{covariance matrix}.
+    \begin{align}
+        &C(x,y)=\begin{bmatrix}\mathrm{var}(x) & \mathrm{cov}(x,y)\\\mathrm{cov}(y,x) & \mathrm{var}(y)\end{bmatrix}&\begin{cases}
+            \mathrm{var}(x)&\displaystyle=\frac{1}{N-1}\sum_{i=1}^{N}\left(x_i-\bar{x}\right)^2\\
+            \mathrm{cov}(x,y)&\displaystyle=\frac{1}{N-1}\sum_{i=1}^{N}\left(x_i-\bar{x}\right)\left(y_i-\bar{y}\right)
+        \end{cases}
+    \end{align}
+    \item Calculate the eigenvalues and (unit) eigenvectors of the covariance matrix.
+    \begin{itemize}
+        \item Eigenvalues are ordered by decreasing size.
+        \item The larger the eigenvalue the more important is its corresponding eigenvector (= principal component).
+    \end{itemize}
+    \item Pick the $K$ largest eigenvalues to form the feature vector.
+    \item Transform the data using the feature vector.
+\end{enumerate}
+
+\begin{center}
+    \includegraphics[width=0.45\textwidth]{img/cheminformatics/DimensionalityReduction1.png}\includegraphics[width=0.45\textwidth]{img/cheminformatics/DimensionalityReduction2.png}
+\end{center}
+
 \subsection{Maximum common substructure}
+
+
 
 \subsection{Scaffolds}
 
