@@ -332,7 +332,44 @@ However, Ullmann's algorithm is still too slow to search for structures in large
     \item Substructure search only for molecules with matching fingerprints.
 \end{enumerate}
 
-The idea behind fingerprints is to convert structures into 1D bit strings, where each bit represents a specific fragment that the molecule contains (=1) or does not contain (=0). The advantage is that it is a very compact representation, but it is not unique for complex molecules. Before doing a search generate the substructure fingerprint for the query molecule, FP(query) and then compare FP(query) to FP(mol) for each mol in the database. If every bit in FP(query) is also set in FP(mol), then you need to check for a substructure match between query and mol. Otherwise you can skip it. With a good substructure fingerprint this can eliminate $>99\%$ of the work for typical queries.
+The idea behind fingerprints is to convert structures into 1D bit strings, where each bit represents a specific fragment that the molecule contains (=1) or does not contain (=0). The advantage is that it is a very compact representation, but it is not unique for complex molecules. Before doing a search generate the substructure fingerprint for the query molecule, FP(query) and then compare FP(query) to FP(mol) for each mol in the database. If every bit in FP(query) is also set in FP(mol), then you need to check for a substructure match between query and mol. Otherwise you can skip it. With a good substructure fingerprint this can eliminate $>99\%$ of the work for typical queries. There are four types of fingerprints based on 2D structures:
+
+\begin{itemize}
+    \item \textbf{Dictionary-based}
+    \begin{itemize}
+        \item Predefined set of substructures (keys)
+        \item Bit position directly connected to a certain pattern
+        \item Example: Molecular ACCess System (MACCS) from MDL $\rightarrow$ 166 structural keys as SMARTS (Bit 13: “[$\#$8]$\sim$[$\#$7]($\sim$[$\#$6])$\sim$[$\#$6]”)
+        \item Example: PubChem fingerprint 1 $\rightarrow$ 881 structural keys (Bit 29: 2 Si, Bit 123: 2 saturated or aromatic carbon-only ring size 3)
+    \end{itemize}
+    \item \emph{Hashing}
+    \begin{itemize}
+        \item In path-based, circular and pharmacophore fingerprints patterns are normally hashed to bit positions.
+        \item Collisions can occur (different patterns hashed to the same bit position)
+    \end{itemize}
+    \item \textbf{Path-based}
+    \begin{itemize}
+        \item Search for all occurrences of a set of generic substructure patterns in the molecule
+        \item Example: RDKit fingerprint with patterns with subgraphs with $1-7$ bonds (with hashing)
+        \item Example: Atom-pairs fingerprint
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth{img/cheminformatics/FingerprintsPathBased.png}\end{center}
+    \item \textbf{Circular fingerprints (Morgan fingerprints)}
+    \begin{itemize}
+        \item Fragments = circular environments around the atoms with different radii
+        \item Circular environments hashed to bit positions
+        \item Example: Extended connectivity fingerprints (ECFP)
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth{img/cheminformatics/FingerprintsCircular.png}\end{center}
+    \item \textbf{2D pharmacophores}
+    \begin{itemize}
+        \item Official definition: \emph{Ensemble of steric and electronic features that is necessary to ensure the optimal supramolecular interactions with a specific biological target structure and to trigger (or to block) its biological response}
+        \item Pharmacophoric features: H-bond donors/acceptors, hydrophobic, pos./neg. charged, aromatic and/or hydrophobic groups: usually a group of atoms mapped to a virtual point.
+        \item 2D pharmacophore fingerprints: Combination of pharmacophoric features and the topological distance between them.
+    \end{itemize}
+\end{itemize}
+
+The main technical problem with fingerprints is that most molecules have only a very small number of fingerprints out of a very large number of possible fingerprints, so most molecules' fingerprints waste a lot of memory space on zero bits. There are two approaches to solving this problem. One is to use \emph{sparse integer vectors} to store only the on-bits. The other is to introduce a second hashing, which, however, can lead to new collisions.
 
 \subsection{Chemical reactions}
 
