@@ -531,9 +531,54 @@ One algorithm for finding the maximum clique in such an associative graph is the
 % not finished code
 %\lstinputlisting[language=C++]{src/cheminformatics/bronKerbosch.cpp}
 
+\paragraph{MCS of multiple structures}
+The MCS of the entire set must not necessarily be a substructure of the MCS of any two pairs. Example: m1 = CCCOONNN, m2 = CCCPPPOO, m3 = NNNPPPSOO (MCS of m1 and m2 : CCC, MCS of m1 and m3 : NNN, MCS of m2 and m3 : PPP, MCS of entire set: OO). The algorithm embedded in RDKit for the MCS problem for multiple structures is the \emph{fmcs} algorithm, which was introduced in 2012 and is similar to the algorithm by Takahashi from 1987. In this algorithm, a structure is defined as a query (all others are targets) and then the subgraphs in the targets are searched for in a subgraph search (starting with a bond that is built up further and further). For this algorithm, the bonds of the graph are converted into SMARTS bonds, which contain information about which atoms they connect.
 
+\begin{align}
+    (\mathrm{SMARTS}\;atom1)-(\mathrm{SMARTS}\;bond)-(\mathrm{SMARTS}\;atom2)
+\end{align}
 
-\subsection{Scaffolds}
+Before the molecules enter the algorithm, a \emph{preprocessing step} is carried out in which all bonds are removed that cannot be part of the MCS because, for example, their type is not contained in all molecules.
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsFmcsPreprocessing.png}\end{center}
+
+The subgraphs are then built up in a breadth-first tree and a priority queue.
+
+\subsubsection{Scaffolds}
+
+An important type of substructure are \emph{scaffolds}, used to classify compounds on the one hand and for patents on the other. \emph{Scaffold hopping} refers to the change of scaffolds without changing the activity of the compound. The definition is not very consistent and somewhat subjective, but the most common approach, which is also implemented in RDKit, is according to \emph{Bemis and Murcko}, which was presented in 1996. 
+
+\begin{itemize}
+    \item \textbf{Bemis and Murcko}
+    \begin{itemize}
+        \item Probably the most widely used approach (available in the RDKit)
+        \item Molecular framework: Ring systems plus linker
+        \item Modification to original algorithm: keep exocyclic/“exolinker” double bonds
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsScaffoldsBemis.png}\end{center}
+    Procedure:
+    \begin{enumerate}
+        \item Add all atoms in rings to the “to keep”-set
+        \item Get the shortest distance between all rings using the distance matrix $\rightarrow$ add the linker atoms to the “to keep”-set
+        \item Loop over the remaining atoms. If an atom is connected by a double bond to a “to keep”-atom $\rightarrow$ also keep it (= exocyclic/”exolinker” double bonds). Fix the properties of the “to keep” neighbors of atoms that are going to be removed.
+        \item Remove the atoms (and corresponding bonds) not in the “to keep”-set
+    \end{enumerate}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsScaffoldsProcedure.png}\end{center}
+    \item \textbf{Hierarchical scaffold clustering (HierS)}
+    \begin{itemize}
+        \item Unsupervised algorithm to group ring systems in the framework hierarchically
+        \item Iterative removal of the linkers
+        \item Fused ring systems are not split
+        \item Multiple scaffolds for each compound à use in classification complicated
+    \end{itemize}
+    \item \textbf{Scaffold tree}
+    \begin{itemize}
+        \item Hierarchical grouping based on dissection of the scaffold by iteratively removing rings (also splitting fused rings)
+        \item Set of 13 prioritization rules applied at each step to select next ring
+        \item Leaf of the tree = single “root” ring
+    \end{itemize}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsScaffoldsTree.png}\end{center}
+\end{itemize}
 
 \subsection{Generation of 3D coordinates}
 
