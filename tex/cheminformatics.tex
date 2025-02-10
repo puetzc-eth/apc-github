@@ -301,14 +301,9 @@ The algorithm is terminated when either all atoms of the pattern have been succe
     \begin{itemize}
         \item Label of a node is enhanced by examining its immediate neighbors.
     \end{itemize}
-    \item \textbf{Ullmann's algorithm}
-    \begin{itemize}
-        \item Combination of backtracking procedure with a relaxation step.
-        \item During the algorithm, an $N_\mathrm{query}$ row by $N_\mathrm{structure}$ column bool-matrix is optimized, which stores whether atoms of the pattern map to atoms of the molecule. 
-    \end{itemize}
 \end{itemize}
 
-The algorithm proceeds as follows:
+Ullmann's algorithm is a combination of a depth-first backtracking procedure and a relaxation step in between. During the algorithm, an $N_\mathrm{query}$ row by $N_\mathrm{structure}$ column bool-matrix is optimized, which stores whether atoms of the pattern map to atoms of the molecule. You can speed up the algorithm a little by starting with rare elements or atoms with many connections. The algorithm proceeds as follows:
 
 \begin{enumerate}
     \item We first set up the original matrix $M_0$ by looking at each row (each atom of the pattern) to see if each atom of the molecule has at least as many connections as the atom of the pattern (Yes = 1, No = 0). Therefore, the atoms $A$, $C$ and $E$, which only have one connection, initially match every atom in the structure, since every atom in the structure has at least one connection. Conversely, $B$ with 3 connections only matches atom 4.
@@ -316,27 +311,45 @@ The algorithm proceeds as follows:
     \item Now the relaxation step follows for each query atom. For this, all neighbors of the corresponding query atom are listed (for $A$ only $B$). Then, for the neighbors, the atoms in the structure that map for the neighbors are looked up in the matrix $M$ (for $B$ only 4). Then, all neighbors for the atoms found in the structure are listed (for 4, these are atoms 3, 5, and 6). Finally, all entries in the matrix for $A$ except 3,5,6 are set to zero.
     \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationA.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationB.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationC.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationD.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationE.png}\end{center}
     \item We will now start with the backtracking steps. For this, we use a depth-first backtracking algorithm. First, we start with an arbitrary pair of vertices that we assume map. These must of course have a 1 in the matrix $M$ and all other entries in the row and column of the pair are set to 0.
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingA.png.png}\end{center}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingA.png}\end{center}
     \item After each backtracking step, the program loops again over each query atom and executes the same algorithm as above to exclude those atoms that have become impossible due to the mapping from A to 3.
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingAr.png.png}\end{center}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingAr.png}\end{center}
     \item After that, backtracking and relaxation continue. For $B$, there is only one possible mapping with 4, so it does not change the matrix. For $C$, two atoms are possible, so one is selected and if this selection does not lead to a final match, it is backtracked to.
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingB.png.png}\end{center}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingB.png}\end{center}
     \item This is done until each line contains only a 1, which indicates a match.
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingV.png.png}\end{center}
+    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingC.png}\end{center}
 \end{enumerate}
-
-
 
 % not finished code
 %\lstinputlisting[language=C++]{src/cheminformatics/ullmann.cpp}
 
 \subsubsection{Molecular fingerprints}
 
+However, Ullmann's algorithm is still too slow to search for structures in larger databases, which is why molecular fingerprints are introduced. For this purpose, the substructure search is divided into two parts:
+
+\begin{enumerate}
+    \item Large scale search using molecular fingerprints (bit strings).
+    \item Substructure search only for molecules with matching fingerprints.
+\end{enumerate}
+
+The idea behind fingerprints is to convert structures into 1D bit strings, where each bit represents a specific fragment that the molecule contains (=1) or does not contain (=0). The advantage is that it is a very compact representation, but it is not unique for complex molecules. Before doing a search generate the substructure fingerprint for the query molecule, FP(query) and then compare FP(query) to FP(mol) for each mol in the database. If every bit in FP(query) is also set in FP(mol), then you need to check for a substructure match between query and mol. Otherwise you can skip it. With a good substructure fingerprint this can eliminate $>99\%$ of the work for typical queries.
+
 \subsection{Chemical reactions}
 
-\subsection{Dimensionality reduction}
+Other cheminformatic tasks such as reaction classification, virtual chemical space or reaction prediction cannot avoid the digital representation of chemical reactions in addition to chemical structures, and also mapping atoms on the reactant and product side.
 
-\subsection{Fingerprints}
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/ChemicalReactionsTransformation.png}\end{center}
+
+\paragraph{Reaction SMILES}
+One way of representing reactions is Reaction SMILES, which extends SMILES to include various molecules separated by “.” and reaction direction by “$>>$”. Examples of nucleophilic substitution reactions can be seen below. 
+
+\begin{itemize}
+    \item C=CCBr.[Na]I$>>$C=CCI.[Na]Br
+    \item C1CCCCC1Br.[Na]I$>>$C1CCCCC1I.[Na]Br
+    \item C=CC(C)Br.[Na]I$>>$C=CC(C)I.[Na]Br
+\end{itemize}
+
+\subsection{Dimensionality reduction}
 
 \subsection{Maximum common substructure}
 
