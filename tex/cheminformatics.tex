@@ -336,9 +336,9 @@ The idea behind fingerprints is to convert structures into 1D bit strings, where
 
 \subsection{Chemical reactions}
 
-Other cheminformatic tasks such as reaction classification, virtual chemical space or reaction prediction cannot avoid the digital representation of chemical reactions in addition to chemical structures, and also mapping atoms on the reactant and product side.
+Other cheminformatic tasks such as reaction classification, virtual chemical space or reaction prediction cannot avoid the digital representation of chemical reactions in addition to chemical structures, and also mapping atoms on the reactant and product side. Analogous to MOL or SDF files, reactions can be saved in the RXN file format, which also embeds crystallographic coordinates.
 
-\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/ChemicalReactionsTransformation.png}\end{center}
+\begin{center}\includegraphics[width=0.75\textwidth]{img/cheminformatics/ChemicalReactionsTransformation.png}\end{center}
 
 \paragraph{Reaction SMILES}
 One way of representing reactions is Reaction SMILES, which extends SMILES to include various molecules separated by “.” and reaction direction by “$>>$”. Examples of nucleophilic substitution reactions can be seen below. 
@@ -347,6 +347,38 @@ One way of representing reactions is Reaction SMILES, which extends SMILES to in
     \item C=CCBr.[Na]I$>>$C=CCI.[Na]Br
     \item C1CCCCC1Br.[Na]I$>>$C1CCCCC1I.[Na]Br
     \item C=CC(C)Br.[Na]I$>>$C=CC(C)I.[Na]Br
+\end{itemize}
+
+\paragraph{SMIRKS}
+For database searches, generic reaction patterns must also be embedded, which can be done with SMIRKS, which is a combination of SMILES, SMARTS and atom mapping. However, the disadvantage of SMIRKS is that it can only be automated to a limited extent and is usually still created manually. The following rules apply:
+
+\begin{itemize}
+    \item Same number and type of mapped atoms on both sides
+    \item Pairwise atom maps
+    \item Non-mapped atoms may be deleted/created during reaction
+    \item 1-1 stochiometry
+    \item Explicit hydrogens must be mapped and appear on both sides
+    \item Bond expressions must be valid SMILES
+    \item Atom expressions either valid
+\end{itemize}
+
+\begin{center}\includegraphics[width=0.75\textwidth]{img/cheminformatics/ChemicalReactionsSmirks.png}\end{center}
+
+\paragraph{Atom Mapping}
+The central concept in the digitization of reactions is atom mapping, because without atom mapping, incorrect results can be obtained. The problem, however, is that the mapping is only straightforward for simple and balanced reactions, but very few reactions are balanced. Since atom mapping is the most challenging task in this process, a tool that maps at least 85\% correctly is considered good.
+
+\paragraph{Reaction Center}
+Another approach is to focus only on the reaction center, i.e. those atoms and bonds that are directly involved in the bond formation or electron rearrangement. There are two main approaches for algorithms:
+
+\begin{itemize}
+    \item \emph{Based on common maximum substructure (MCS)}
+    \begin{itemize}
+        \item Find unchanged parts and derive reaction center (changed parts).
+    \end{itemize}
+    \item \emph{Optimizing the number of bonds broken and formed}
+    \begin{itemize}
+        \item Find reaction center (changed parts) and derive the unchanged parts.
+    \end{itemize}
 \end{itemize}
 
 \subsection{Dimensionality reduction}
