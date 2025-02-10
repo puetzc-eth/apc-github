@@ -472,9 +472,37 @@ PCA is a linear data transformation that maximizes the variance of the data in t
     \includegraphics[width=0.45\textwidth]{img/cheminformatics/DimensionalityReduction1.png}\includegraphics[width=0.45\textwidth]{img/cheminformatics/DimensionalityReduction2.png}
 \end{center}
 
-\subsection{Maximum common substructure}
+\subsection{Maximum Common Substructure (MCS)}
 
+The problem of \emph{Maximum Common Substructure} (MCS) is to find the largest substructure from two or more structures. This can refer to a maximum number of atoms (MCIS: maximum common induced subgraph) or a maximum number of bonds (MCES: maximum common edge subgraph).
 
+\begin{center}
+    \includegraphics[width=0.85\textwidth]{img/cheminformatics/McsExample.png}
+\end{center}
+
+The MCS itself can also be approximate or exact and connected or not connected. However, MCS is an \emph{NP-complete} problem, which is why in the worst case the algorithms run exponentially. However, as is so often the case, molecular graphs allow for some heuristics that can significantly reduce the running times. Algorithmically, the problem can be solved exactly or approximately for connected MCS, as can be seen in the following list:
+
+\begin{itemize}
+    \item \emph{Exact algorithms}
+    \begin{itemize}
+        \item Maximum-clique based algorithms
+        \item Backtracking
+        \item Dynamic programming
+    \end{itemize}
+    \item \emph{Approximate algorithms}
+    \begin{itemize}
+        \item Genetic algorithms
+        \item Combinatorial optimization
+        \item Fragment storage
+        \item Ad hoc procedures
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Maximum Clique Problem}
+
+The MCS problem can be reformulated as another classical NP-complete problem in graph theory, the \emph{Maximum Clique Problem}. For this purpose, the \emph{association graph} $G_\mathrm{A}$ is introduced from the two graphs $G_1$ and $G_2$, which makes an association vertex for each matching vertex pair of $G_1$ and $G_2$. The vertices in $G_\mathrm{A}$ are then connected if the adjacency of the corresponding vertex pairs are the same in $G_1$ and $G_2$. The \emph{clique} is now a complete subgraph of $G_\mathrm{A}$ (all nodes are connected to each other). This clique is then automatically the MCS of the two graphs $G_1$ and $G_2$.
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/McsAssociationGraph.png}\end{center}
 
 \subsection{Scaffolds}
 
