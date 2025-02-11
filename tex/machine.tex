@@ -1,12 +1,31 @@
-% Introduction to Machine-Learning
+% Introduction to Machine-Learning (1 week)
 
-test
+The idea behind \emph{supervised machine learning} is to determine a function from a set of training data that can be used to predict the output of new data. The training data is a representative set of examples with input values (typically a vector) and a known output value. Typical machine learning tasks are, for example, \emph{classifications} (discrete output: for example, a molecule is biologically active or not) or \emph{regressions} (continuous output: for example, linear regression).
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/machine/MachineGeneralScheme.png}\end{center}
+
+The following methods, among others, can be used for this purpose:
+
+\begin{itemize}
+    \item Linear models, e.g. linear regression, logistic regression
+    \item Decision tree
+    \item Random forest
+    \item Gradient tree boosting
+    \item Naïve Bayes
+    \item Support vector machines (SVM)
+    \item Artificial neural networks
+\end{itemize}
+
+\paragraph{Validation}
+Once a function has been determined from the training data, it still needs to be validated, since the training data for such algorithms is often too small and there is a risk of overfitting the training data, whereby the function performs well on the training set but not well on new data. 
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/machine/MachineOverUnderFiting.png}\end{center}
 
 %\lstinputlisting[language=C++]{src/intro/test.cpp}
 
 \subsection{Linear models: linear regression, logistic regression}
 
-\begin{center}\includegraphics[width=0.85\textwidth]{img/machine/MachineOverUnderFiting.png}\end{center}
+
 
 \subsection{Decision trees}
 
