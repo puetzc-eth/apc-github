@@ -143,7 +143,7 @@ The idea behind ring perception is to develop an algorithm that can automaticall
 The size we now want to determine exactly is the smallest set of smallest rings (SSSR), in which as many rings of the smallest possible size as possible are found. 
 
 \begin{center}
-    \includegraphics[width=0.85\textwidth]{img/cheminformatics/RingPerceptionSssr.png}
+    \includegraphics[width=0.65\textwidth]{img/cheminformatics/RingPerceptionSssr.png}
 \end{center}
 
 \paragraph{Figueras' algorithm}
@@ -153,7 +153,7 @@ Figueras' algorithm is an algorithm presented in 1996 to determine the SSSR of a
     \item 
 \end{enumerate}
 
-\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/RingPerceptionFigueras1.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/RingPerceptionFigueras2.png}\end{center}
+\begin{center}\includegraphics[width=0.75\textwidth]{img/cheminformatics/RingPerceptionFigueras1.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/RingPerceptionFigueras2.png}\end{center}
 
 % not finished code
 %\lstinputlisting[language=C++]{src/cheminformatics/figueras.cpp}
@@ -309,7 +309,7 @@ Ullmann's algorithm is a combination of a depth-first backtracking procedure and
     \item We first set up the original matrix $M_0$ by looking at each row (each atom of the pattern) to see if each atom of the molecule has at least as many connections as the atom of the pattern (Yes = 1, No = 0). Therefore, the atoms $A$, $C$ and $E$, which only have one connection, initially match every atom in the structure, since every atom in the structure has at least one connection. Conversely, $B$ with 3 connections only matches atom 4.
     \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannInitialMatrix.png}\end{center}
     \item Now the relaxation step follows for each query atom. For this, all neighbors of the corresponding query atom are listed (for $A$ only $B$). Then, for the neighbors, the atoms in the structure that map for the neighbors are looked up in the matrix $M$ (for $B$ only 4). Then, all neighbors for the atoms found in the structure are listed (for 4, these are atoms 3, 5, and 6). Finally, all entries in the matrix for $A$ except 3,5,6 are set to zero.
-    \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationA.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationB.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationC.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationD.png}\\\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannRelaxationE.png}\end{center}
+    \begin{center}\includegraphics[width=0.45\textwidth]{img/cheminformatics/UllmannRelaxationA.png}\includegraphics[width=0.45\textwidth]{img/cheminformatics/UllmannRelaxationB.png}\\\includegraphics[width=0.45\textwidth]{img/cheminformatics/UllmannRelaxationC.png}\includegraphics[width=0.45\textwidth]{img/cheminformatics/UllmannRelaxationD.png}\\\includegraphics[width=0.45\textwidth]{img/cheminformatics/UllmannRelaxationE.png}\end{center}
     \item We will now start with the backtracking steps. For this, we use a depth-first backtracking algorithm. First, we start with an arbitrary pair of vertices that we assume map. These must of course have a 1 in the matrix $M$ and all other entries in the row and column of the pair are set to 0.
     \begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/UllmannBacktrackingA.png}\end{center}
     \item After each backtracking step, the program loops again over each query atom and executes the same algorithm as above to exclude those atoms that have become impossible due to the mapping from A to 3.
@@ -678,10 +678,54 @@ In the above example, ideal coordinates were used, but in reality, somewhat less
 
 \subsection{Clustering}
 
-\subsubsection{Hierarchical}
+The basic idea behind clustering is to find certain similarity structures in large amounts of data from molecules and thus assign the similar objects to sets (clusters). The algorithms may differ in the following points:
+
+\begin{itemize}
+    \item Definition of what is a cluster
+    \item Distance/similarity function
+    \item Distance/similarity threshold or a fixed number of clusters
+    \item Search strategy
+    \item Single or multiple cluster assignment (overlap)
+\end{itemize}
+
+In principle, a distinction is made between the relatively broad categories of hierarchical clustering and non-hierarchical clustering:
+
+\begin{itemize}
+    \item \textbf{Hierarchical Clustering}
+    \begin{itemize}
+        \item Iterative merging (bottom up) or splitting (top down) of clusters
+    \end{itemize}
+    \item \textbf{Non-Hierarchical Clustering}
+    \begin{itemize}
+        \item Single partitioning into a set of clusters
+    \end{itemize}
+\end{itemize}
+
+Clustering is used in cheminformatics to group compounds in databases and large data sets and to represent subsets of molecules. On the other hand, it is also used in molecular dynamics to determine conformations and to determine the influence of simulation parameters on the conformations found.
+
+\subsubsection{Hierarchical Clustering}
+
+In \emph{hierarchical clustering}, a hierarchical tree structure is generated, which has the advantage that no prior assumptions need to be made regarding the number of clusters. However, this approach is based on the fact that a distance or similarity matrix is created for each compound, which on the one hand requires a large amount of memory with $\Theta(N^2)$ and on the other hand sets the running time of each clustering step to $\Theta(N^3)$, which is why the approach is not applicable to very large amounts of data.
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/ClusteringHierarchicalTree.png}\end{center}
+
+In principle, two major methods have been established for this approach:
+
+\begin{itemize}
+    \item \textbf{Divisive} (top down):
+    \begin{itemize}
+        \item Start with all objects in 1 cluster, then iteratively split clusters.
+        \item Polythetic (multiple descriptors)
+        \item Monothetic (single descriptor)
+    \end{itemize}
+    \item \textbf{Agglomerative} (bottom up):
+    \begin{itemize}
+        \item Start with all objects as singletons, then iteratively merge clusters.
+    \end{itemize}
+\end{itemize}
 
 \subsubsection{Application to chemical space}
 
-\subsubsection{Non-hierarchical}
+\subsubsection{Non-hierarchical Clustering}
 
 \subsubsection{Application to conformations}
