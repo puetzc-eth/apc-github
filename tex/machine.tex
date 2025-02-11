@@ -29,9 +29,27 @@ For classification models, slightly different assessment criteria for the qualit
 
 \subsection{Linear models: linear regression, logistic regression}
 
+\paragraph{Linear Regression}
+Linear regression is the simplest ML-model and has as training data a set of example values of $(x,y)$ values, where the input values are the $x$ values and the output values (continues) are the $y$ values. The goal of the regression is to find a linear function $y(x)=ax+b$ for which the squared distances of the points from the regression line are minimized. 
 
+\begin{center}\includegraphics[width=0.65\textwidth]{img/machine/MachineLinearRegression.png}\end{center}
+
+\paragraph{Logistic Regression}
+In logistic regression (similar to multiple linear regression), an input vector $X_i=(x_{1,i}, x_{2,i},\cdots,x_{N,i})$ is compared to a discrete output value $Y$ (here either 0 or 1, but generally classification) as training data. The coefficients $(a_1,a_2,\cdots,a_N)$ are fitted for a logistic function, where $p_i$ is the probability for a $y$-value. These models are often relatively simple but very effective.
+
+\begin{align}
+    \log_{2}\left(\frac{p_i}{1-p_i}\right)=a_0+a_1x_{1,i}+\cdots+a_Nx_{N,i}
+\end{align}
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/machine/MachineLogisticRegression.png}\end{center}
 
 \subsection{Decision trees}
+
+\emph{Decision trees} can be used in machine learning for both classifications and regressions. They use as training data as input variable vectors with multiple attributes and as output variables integer or continuous values. The attributes of the input vector determine which branch of the decision tree is taken.
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/machine/MachineDecisionTrees.png}\end{center}
+
+
 
 \subsection{Ensemble methods}
 
