@@ -707,7 +707,7 @@ Clustering is used in cheminformatics to group compounds in databases and large 
 
 In \emph{hierarchical clustering}, a hierarchical tree structure is generated, which has the advantage that no prior assumptions need to be made regarding the number of clusters. However, this approach is based on the fact that a distance or similarity matrix is created for each compound, which on the one hand requires a large amount of memory with $\Theta(N^2)$ and on the other hand sets the running time of each clustering step to $\Theta(N^3)$, which is why the approach is not applicable to very large amounts of data.
 
-\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/ClusteringHierarchicalTree.png}\end{center}
+\begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/ClusteringHierarchicalTree.png}\end{center}
 
 In principle, two major methods have been established for this approach:
 
@@ -724,8 +724,63 @@ In principle, two major methods have been established for this approach:
     \end{itemize}
 \end{itemize}
 
-\subsubsection{Application to chemical space}
+\paragraph{Sequential agglomerative hierarchical non-overlapping (SAHN) methods}
+One bottom-up method is \emph{SAHN}, which follows this procedure:
+
+\begin{enumerate}
+    \item Calculate initial matrix of all pairwise similarities/distances
+    \item Scan matrix for the most similar pair of clusters and merge them (thus replacing the original pair)
+    \item Update similarity/distance matrix: Delete one entry and replace the other with the proximities of the new cluster to all other clusters
+    \item Repeat step 2 and 3 until only 1 cluster remains
+\end{enumerate}
+
+The definition of similarity in clustering is also extremely important, with the following four being the most important:
+
+\begin{itemize}
+    \item \textbf{Single link (SLINK):}
+    \begin{itemize}
+        \item Minimum distance between the nearest two points in each cluster
+        \item[$\oplus$] Can handle non-elliptical shapes
+        \item[$\ominus$] Sensitive to noise/outliers
+        \item[$\ominus$] Produces long, elongated clusters
+    \end{itemize}
+    \item \textbf{Complete link (CLINK):}
+    \begin{itemize}
+        \item Maximum distance between two points in each cluster
+        \item[$\oplus$] More balanced clusters (equal diameter)
+        \item[$\oplus$] Less susceptible to noise/outliers
+        \item[$\ominus$] Tends to break large clusters $\rightarrow$ all clusters have same diameter
+    \end{itemize}
+    \item \textbf{Group average:}
+    \begin{itemize}
+        \item Mean distance between all pairs in the two clusters (compromise between SLINK and CLINK)
+        \item[$\oplus$] Less susceptible to noise/outliers
+        \item[$\ominus$] Biased towards globular clusters
+    \end{itemize}
+    \item \textbf{Ward's method:}
+    \begin{itemize}
+        \item Minimize the increase in intra-cluster variance when merging two clusters
+        \item[$\oplus$] Less susceptible to noise/outliers
+        \item[$\ominus$] Biased towards globular clusters
+    \end{itemize}
+\end{itemize}
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/ClusteringHierarchicalLinkage.png}\end{center}
+
+\paragraph{Lance-Williams matrix-update formula}
+Even though the definition of similarities varies in the four methods presented, the formula for calculating the similarities between clusters remains the \emph{Lance-Williams matrix-update formula} with different parameters.
+
+\begin{align}
+    &d_{k,(i,j)}=\alpha_i d_{k,i}+\alpha_j d_{k,j}+\beta d_{i,j}+\gamma|d_{k,i}-d_{k,j}|&\begin{cases}
+        d&\textit{distance}\\
+        k&\textit{other cluster}\\
+        (i,j)&\textit{clusters to be merged}
+    \end{cases}
+\end{align}
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/cheminformatics/ClusteringHierarchicalFormulaTable.png}\end{center}
+
+\textcolor{red}{Beispiele einfügen (Chemical clustering und für jedes der vier vorgestellten Methoden)}
 
 \subsubsection{Non-hierarchical Clustering}
 
-\subsubsection{Application to conformations}
