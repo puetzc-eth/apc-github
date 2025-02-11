@@ -606,10 +606,75 @@ The inclusion of multiple conformations in the digital representation of molecul
 The mathematical basis for the collection of conformations is \emph{distance geometry}, which is a special case of geometric algebra and makes the fundamental assumption for molecules that the complete set of possible conformations of a molecule can only be defined by geometric considerations. The approach is based on generating a \emph{distance bounds matrix} from the 2D structure (no initial 3D structure is needed as for other approaches), in which the distances of the atoms of the molecule are stored. At the beginning, lower and upper bounds for the possible distances are written into this matrix (upper bound above the main diagonal and lower bound below the main diagonal), which are calculated as follows:
 
 \begin{itemize}
-    \item 
+    \item 1-2 distances: from ideal bond lengths
+    \item 1-3 distances: from ideal bond lengths and bond angles
+    \item 1-4 distances: from ideal bond lengths, angles and torsional angles
+    \item Empirical information to restrict torsional angles
+    \item For other pairs of atoms:
+    \begin{itemize}
+        \item Default upper bound: arbitrary large value
+        \item Default lower bound: sum of the van der Waals radii
+    \end{itemize}
 \end{itemize}
 
-\begin{center}\includegraphics[width=0.45\textwidth]{img/cheminformatics/3dInitialDistanceMatrixEmpty.png}\includegraphics[width=0.45\textwidth]{img/cheminformatics/3dInitialDistanceMatrix.png}\end{center}
+\begin{center}\includegraphics[width=0.30\textwidth]{img/cheminformatics/3dInitialDistanceMatrixEmpty.png}\includegraphics[width=0.60\textwidth]{img/cheminformatics/3dInitialDistanceMatrix.png}\end{center}
+
+The matrix generated in this way can be improved slightly using the triangle inequality (\emph{Triangle inequality bounds smoothing}) by approximating the default high values for the upper limit as follows.
+
+\begin{align}
+    &AC\leq(AB+BC)&\Leftrightarrow&&AC\geq|AB-BC|
+\end{align}
+
+\paragraph{Metric Matrix Method}
+The question that remains is how can we now generate conformations from the distance bound matrix. The \emph{metrix matrix method} is used for this, which works as follows (example cyclobutene) :
+
+\begin{enumerate}
+    \item \emph{Distance bound matrix $B$}:
+    \begin{itemize}
+        \item Generation of initial distance bounds matrix $B_0$.
+        \item Triangle inequality bounds smoothing to distance bounds matrix $B$.
+    \end{itemize}
+    \begin{align}
+        &B_0=\begin{bmatrix} 0 & 1 & 100 & 1 \\ 1 & 0 & 1 & 100 \\ 0.5 & 1 & 0 & 1 \\ 1 & 0.5 & 1 & 0 \end{bmatrix}&\Rightarrow&&B=\begin{bmatrix} 0 & 1 & 2 & 1 \\ 1 & 0 & 1 & 2 \\ 0.5 & 1 & 0 & 1 \\ 1 & 0.5 & 1 & 0 \end{bmatrix}
+    \end{align}
+    \item \emph{Distance matrix $D$}:
+    \begin{itemize}
+        \item Random selection of distances between the bounds (ideal case in the example with the exact distances).
+    \end{itemize}
+    \begin{align}
+        &D=\begin{bmatrix} 0 & 1 & \sqrt{2} & 1 \\ 1 & 0 & 1 & \sqrt{2} \\ \sqrt{2} & 1 & 0 & 1 \\ 1 & \sqrt{2} & 1 & 0 \end{bmatrix}&d_{io}^2=\frac{1}{N}\sum_{j=1}^{N}d_{ij}^2-\frac{1}{N^2}\sum_{j=2}^{N}\sum_{k=1}^{j-1}d_{jk}^2&&D_0=\begin{bmatrix} \sqrt{0.5} \\ \sqrt{0.5} \\ \sqrt{0.5} \\ \sqrt{0.5} \end{bmatrix}
+    \end{align}
+    \item \emph{Metric matrix $G$}:
+    \begin{itemize}
+        \item Metric matrix describes the conformation in $N-1$ dimensions for the $N$ atoms ($g_{ij}$ is an element of $G$).
+    \end{itemize}
+    \begin{align}
+        &g_{ij}=\frac{d_{io}^2+d_{jo}^2+d_{ij}^2}{2}&G=\begin{bmatrix} 0.5 & 0 & -0.5 & 0 \\ 0 & 0.5 & 0 & -0.5 \\ -0.5 & 0 & 0.5 & 0 \\ 0 & -0.5 & 0 & 0.5 \end{bmatrix}
+    \end{align}
+    \item \emph{Embedding}:
+    \begin{itemize}
+        \item Determination of the three largest eigenvalues of the metric matrix $G$ and their corresponding eigenvectors.
+        \item Projection of the high dimensional system into three dimensions using these eigenvalues and eigenvectors.
+        \item $G$ is a square symmetric matrix $\rightarrow$ decomposition: $G=VL^2V^T=XX^T$ (diagonal element of $L$ = eigenvalues of $G$, columns of $V$ = eigenvectors of $G$, Cartesian coordinates $X$)
+    \end{itemize}
+    \begin{align}
+        &L=\begin{bmatrix}1&0&0&0\\0&1&0&0\\0&0&0&0\\0&0&0&0\end{bmatrix}&V=\begin{bmatrix} \sqrt{0.5} & 0 & \sqrt{0.5} & 0 \\ 0 & \sqrt{0.5} & 0 & \sqrt{0.5} \\ -\sqrt{0.5} & 0 & \sqrt{0.5} & 0 \\ 0 & -\sqrt{0.5} & 0 & \sqrt{0.5} \end{bmatrix}&&X_\mathrm{new}=\begin{bmatrix}\sqrt{0.5}&0\\0&\sqrt{0.5}\\-\sqrt{0.5}&0\\0&-\sqrt{0.5}\end{bmatrix}
+    \end{align}
+    \item \emph{Refinement}:
+    \begin{itemize}
+        \item Refinement of the coordinates by minimizing an error function (e.g.conjugate gradient minimization).
+        \item The starting coordinates are not of good quality because a projection from $N-1$ dimensions to three dimensions was made.
+        \item The coordinates can be readjusted by minimizing an error function $F$ (conditions of the error function: non-negative, translation and rotation independent, twice differentiable everywhere, global minimum = 0). 
+        \item $E$ is a example of a distance error function with distance $d$, upper bound $u$ and lower bound $l$
+    \end{itemize}
+    \begin{align}
+        &F=\sum(\text{distance errors})^2+\sum(\text{chirality errors})^2\\&E=\sum_{i=1}^{N-1}\sum_{j=i+1}^{N}\max\left\{0,\left(\frac{d_{ij}^2}{u_{ij}^2}-1\right)^2\right\}+\max\left\{0,\left(\frac{2l_{ij}^2}{l_{ij}^2+d_{ij}^2}-1\right)^2\right\}
+    \end{align}
+\end{enumerate}
+
+In the above example, ideal coordinates were used, but in reality, somewhat less favorable values are used:
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/cheminformatics/3dRealCase.png}\end{center}
 
 \subsection{Clustering}
 
