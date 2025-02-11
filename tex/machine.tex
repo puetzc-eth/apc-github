@@ -49,7 +49,15 @@ In logistic regression (similar to multiple linear regression), an input vector 
 
 \begin{center}\includegraphics[width=0.85\textwidth]{img/machine/MachineDecisionTrees.png}\end{center}
 
+In decision trees, the selection of attributes that are responsible for the splitting at the nodes is crucial. You set up the tree so that you get the maximum amount of information at each decision point, which is synonymous with reducing entropy/impurity.
 
+\begin{align}
+    &S(x)=\left(-p_{x,A}\log_2p_{x,A}\right)+\left(-p_{x,I}\log_2p_{x,I}\right)&Gain(x_2)=S(x_1)-\sum_{i=1}^{n}\frac{N_{x_2,\mathrm{tot}}}{N_{x_1,\mathrm{tot}}}S(x_2,i)
+\end{align}
+
+\begin{center}\includegraphics[width=0.85\textwidth]{img/machine/MachineDecisionTreesEntropy.png}\end{center}
+
+\deff{Gini impurity}{Gini impurity measures how often a randomly chosen element of a set would be incorrectly labeled if it were labeled randomly and independently according to the distribution of labels in the set. It reaches its minimum (zero) when all cases in the node fall into a single target category.}
 
 \subsection{Ensemble methods}
 
