@@ -77,6 +77,33 @@ The advantages and disadvantages of decision trees for machine learning are list
 
 \subsection{Ensemble methods}
 
+The idea behind \emph{ensemble learning} is that you use the results of many not-so-strong models to achieve a strong overall result, which is then comparable to the wisdom of the crowd. For example, this is the case when several smaller decision trees only have a random subset of the training data and the output is decided by the majority of the individual models. The biggest advantage is that these models are usually more robust and the data that was not used by the individual trees can be used immediately as validation.
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/machine/MachineEnsemble.png}\end{center}
+
+\subsubsection{Random Forests}
+
+Random Forests is an ensemble method that introduces a second random element (on the one hand, a random subset of training data per tree and, on the other hand, a random subset of attributes per node) to develop even more robust machine learning models. The first application for drug design of RFs was for quantitative structure-activity relationship models.
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/machine/MachineEnsembleRandomForests.png}\end{center}
+
+\subsubsection{Gradient Tree Boosting}
+
+Gradient tree boosting is an ensemble method that is very similar to random forests, but here the trees are created sequentially after the training data has been run through, so that this information can be used to create better trees and thus make even better models than RFs, but the implementation usually takes longer.
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/machine/MachineEnsembleGradientTreeBoosting.png}\end{center}
+
 \subsection{Artificial neural networks}
 
-\subsection{Practical considerations}
+\deff{Artificial neuron}{The artificial neuron is the basic unit of information reception where the inputs are received and multiplied, summed, and processed via a transfer function before being delivered to the output.}
+
+Here $f()$ is the transfer function, $b$ is the external error, the weights $w_{ij}$ are determined by the training and $a()$ is the decision function. This model always requires a training and a validation set.
+
+\begin{align}
+    y_i=f\left(\sum_{j=1}^{n}w_{ij}x_j+b\right)
+\end{align}
+
+\begin{center}\includegraphics[width=0.65\textwidth]{img/machine/MachineArtificialNeuralNetworks.png}\end{center}
+
+\subsection{Practical Considerations}
+
