@@ -10,6 +10,8 @@ In order to be able to compare different algorithms, they are compared in terms 
 
 The brute force algorithm to sort a vector of integers is the \emph{Selectionsort} algorithm. In this algorithm, a vector $a$ is sorted by checking for each vector element $i$ (outer loop) individually whether there is a smaller element $j$ in the remaining vector (inner loop) and, if so, swapping the smallest element found with the element under consideration. The vector is then sorted from left to right. As the vector is passed through twice, the algorithm with $\Theta(N^2)$ is relatively inefficient.
 
+\begin{center}\includegraphics[width=0.85\textwidth]{img/algorithms/BruteForceSelectionsort.png}\end{center}
+
 %\lstinputlisting[language=C++]{src/algorithms/selectionsort.cpp}
 
 \subsection{Divide-and-conquer}
@@ -23,9 +25,13 @@ The brute force algorithm to sort a vector of integers is the \emph{Selectionsor
 
 The algorithm is often quite efficient with $\Theta(N\log N)$. A typical example of a divide-and-conquer algorithm is the recursive sorting algorithm \emph{Mergesort}. A vector $a$ is divided into smaller vectors $b$ until the sub-vectors only contain one number. These are then combined to form the sorted vector.
 
+\begin{center}\includegraphics[width=0.85\textwidth]{img/algorithms/DivideConquerMergesort.png}\end{center}
+
 %\lstinputlisting[language=C++]{src/algorithms/mergesort.cpp}
 
 \subsection{Dynamic Programming}
+
+
 
 %\lstinputlisting[language=C++]{src/algorithms/knappsack.cpp}
 
