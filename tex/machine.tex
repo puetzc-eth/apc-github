@@ -107,3 +107,25 @@ Here $f()$ is the transfer function, $b$ is the external error, the weights $w_{
 
 \subsection{Practical Considerations}
 
+\begin{itemize}
+    \item \textbf{Imbalanced datasets}
+    \begin{itemize}
+        \item Very common situation
+        \item Diverse methods to address it, e.g. random undersampling of majority class, oversampling of minority class or threshold shifting
+    \end{itemize}
+    \item \textbf{Splitting of dataset into training and test sets}
+    \begin{itemize}
+        \item Random (should be repeated multiple times)
+        \item Cluster based, e.g. move all compounds with the same scaffold either into training or testing
+        \item Time splits
+    \end{itemize}
+    \item \textbf{Model interpretability}
+    \begin{itemize}
+        \item Random forests: Feature importances
+    \end{itemize}
+    \item \textbf{Applicability domain}
+    \begin{itemize}
+        \item Defined by the scope of the training set
+        \item Models good at interpolation, true extrapolation very difficult
+    \end{itemize}
+\end{itemize}
